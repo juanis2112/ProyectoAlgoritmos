@@ -52,7 +52,7 @@ template <typename numberType>
 Cvector<numberType>  Cvector<numberType>::operator=(const Cvector &rhs){
     numberType *Oldarray = this -> array;
     this -> array = new numberType[rhs.capacity + Initial_Capacity];
-    for (int i = 0; i < rhs.length; i++){
+    for (size_t i = 0; i < rhs.length; i++){
         array[i] = rhs.array[i];
     }
     this -> length = rhs.length;
@@ -71,22 +71,31 @@ numberType Cvector<numberType>::operator [] (size_t idx){
 //-------------------------------------Friend operators ------------------------------------------
 //// Comparisson Operators
 
+// Operator <<
+template <typename numberType>
+ostream & operator<<(ostream &os, const Cvector<numberType> &rhs) {
+    os << "[ ";
+    for (size_t i = 0; i < rhs.length; i++) cout << rhs.array[i] << " ";
+    os << "]" << endl;
+    
+    return os;
+}
+
 // Operator ==
 template <typename numberType>
 Cvector<bool> operator == (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
-    if(x.length == y.length){
-        for (size_t i = 0; i < x.length; i++){
-            result.array[i] = (x.array[i] == y.array[i]);
-        }
+    result.length = x.length;
+    for (size_t i = 0; i < x.length; i++){
+        result.array[i] = (x.array[i] == y.array[i]);
     }
     return result;
 }
-
 // Operator !=
 template <typename numberType>
 Cvector<bool> operator != (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
+    result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = (x.array[i] != y.array[i]);
     }
@@ -97,6 +106,7 @@ Cvector<bool> operator != (const Cvector<numberType> &x , const Cvector<numberTy
 template <typename numberType>
 Cvector<bool> operator <= (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
+    result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = (x.array[i] <= y.array[i]);
     }
@@ -107,6 +117,7 @@ Cvector<bool> operator <= (const Cvector<numberType> &x , const Cvector<numberTy
 template <typename numberType>
 Cvector<bool> operator >= (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
+    result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = (x.array[i] >= y.array[i]);
     }
@@ -117,6 +128,7 @@ Cvector<bool> operator >= (const Cvector<numberType> &x , const Cvector<numberTy
 template <typename numberType>
 Cvector<bool> operator < (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
+    result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = (x.array[i] < y.array[i]);
     }
@@ -127,6 +139,7 @@ Cvector<bool> operator < (const Cvector<numberType> &x , const Cvector<numberTyp
 template <typename numberType>
 Cvector<bool> operator > (const Cvector<numberType> &x , const Cvector<numberType> &y){
     Cvector<bool> result;
+    result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = (x.array[i] > y.array[i]);
     }
@@ -139,9 +152,33 @@ Cvector<bool> operator > (const Cvector<numberType> &x , const Cvector<numberTyp
 template <typename numberType>
 Cvector<numberType> operator + (const Cvector<numberType> &x, const Cvector<numberType> &y){
     Cvector<numberType> result;
-    size_t len = max(x.length, y.length);
-    for (size_t i = 0; i < len; i++){
-        result.array[i] = x.array[i] + y.array[i];
+    if (x.length == y.length){
+        for (size_t i = 0; i < x.length; i++){
+            result.array[i] = x.array[i] + y.array[i];
+            }
+        result.length = x.length;
+        }
+    
+    else if (x.length < y.length){
+        for (size_t i = 0; i < x.length; i++){
+            result.array[i] = x.array[i] + y.array[i];
+            }
+        
+        for (size_t i = x.length; i < y.length; i++){
+            result.array[i] = y.array[i];
+            }
+        result.length = y.length;
+        }
+    
+    else if (x.length > y.length){
+        for (size_t i = 0; i < y.length; i++){
+            result.array[i] = x.array[i] + y.array[i];
+        }
+        
+        for (size_t i = y.length; i < x.length; i++){
+            result.array[i] = x.array[i];
+        }
+        result.length = x.length;
     }
     
     return result;
@@ -151,9 +188,34 @@ Cvector<numberType> operator + (const Cvector<numberType> &x, const Cvector<numb
 template <typename numberType>
 Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numberType> &y){
     Cvector<numberType> result;
-    size_t len = max(x.length, y.length);
-    for (size_t i = 0; i < len; i++){
-        result.array[i] = x.array[i] - y.array[i];
+    if (x.length == y.length){
+        for (size_t i = 0; i < x.length; i++){
+            result.array[i] = x.array[i] - y.array[i];
+        }
+        result.length = x.length;
+    }
+    
+    
+    else if (x.length < y.length){
+        for (size_t i = 0; i < x.length; i++){
+            result.array[i] = x.array[i] - y.array[i];
+        }
+        
+        for (size_t i = x.length; i < y.length; i++){
+            result.array[i] = 0 - y.array[i];
+        }
+        result.length = y.length;
+    }
+    
+    else if (x.length > y.length){
+        for (size_t i = 0; i < y.length; i++){
+            result.array[i] = x.array[i] - y.array[i];
+        }
+        
+        for (size_t i = y.length; i < x.length; i++){
+            result.array[i] = 0 - x.array[i];
+        }
+        result.length = x.length;
     }
     
     return result;
@@ -161,11 +223,11 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
 
 // Operator *
 template <typename numberType>
-Cvector<numberType> operator * (const Cvector<numberType> &x, const Cvector<numberType> &y){
+Cvector<numberType> operator * (const Cvector<numberType> &x, const int &y){
     Cvector<numberType> result;
-    size_t len = max(x.length, y.length);
-    for (size_t i = 0; i < len; i++){
-        result.array[i] = x.array[i] * y.array[0];
+    result.length = x.length;
+    for (size_t i = 0; i < x.length; i++){
+        result.array[i] = numberType (x.array[i] * y);
     }
     
     return result;
@@ -173,13 +235,12 @@ Cvector<numberType> operator * (const Cvector<numberType> &x, const Cvector<numb
 
 // Operator /
 template <typename numberType>
-Cvector<numberType> operator / (const Cvector<numberType> &x, const Cvector<numberType> &y){
+Cvector<numberType> operator / (const Cvector<numberType> &x, const int &y){
     Cvector<numberType> result;
-    
+	result.length = x.length;
     // if y= 0 ERROR
-    size_t len = max(x.length, y.length);
-    for (size_t i = 0; i < len; i++){
-        result.array[i] = x.array[i] / y.array[0];
+    for (size_t i = 0; i < x.length; i++){
+        result.array[i] = x.array[i] / y;
     }
     
     return result;
@@ -187,17 +248,17 @@ Cvector<numberType> operator / (const Cvector<numberType> &x, const Cvector<numb
 
 // Operator ^
 template <typename numberType>
-Cvector<numberType> operator ^ (const Cvector<numberType> &x, const Cvector<numberType> &y){
+Cvector<numberType> operator ^ (const Cvector<numberType> &x,  int y){
     Cvector<numberType> result(x);
-    for (size_t i = 0; i < y.array[0]; i++){
-        result.array *= x.array;
+	result.length = x.length;
+    for (int i = 0; i < y; i++){
+        result =  (result * y);
     }
     
     return result;
 }
 
 //---------------------------------------Class Methods------------------------------------------
-
 
 // Dot Product
 template <typename numberType>
@@ -210,7 +271,7 @@ double Cvector<numberType>::dot(Cvector<numberType> arr){
     }
 
     double out = 0;
-    for(int i = 0; i < size1; i++){
+    for(size_t i = 0; i < size1; i++){
         out += this -> array[i] * arr.array[i];
     }
 

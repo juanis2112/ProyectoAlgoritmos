@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A9B580D82273BF90001BF182 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9B580D72273BF90001BF182 /* main.cpp */; };
-		A9B580E02273BFBE001BF182 /* CVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9B580DE2273BFBE001BF182 /* CVector.cpp */; };
+		A9ECAD22227D2E730027DFEB /* CVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9ECAD1F227D2E720027DFEB /* CVector.cpp */; };
+		A9ECAD23227D2E730027DFEB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9ECAD20227D2E720027DFEB /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +25,9 @@
 
 /* Begin PBXFileReference section */
 		A9B580D42273BF90001BF182 /* ProyectoAlgoritmos */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProyectoAlgoritmos; sourceTree = BUILT_PRODUCTS_DIR; };
-		A9B580D72273BF90001BF182 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		A9B580DE2273BFBE001BF182 /* CVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CVector.cpp; sourceTree = "<group>"; };
-		A9B580DF2273BFBE001BF182 /* CVector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CVector.hpp; sourceTree = "<group>"; };
+		A9ECAD1F227D2E720027DFEB /* CVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CVector.cpp; path = CVector/CVector.cpp; sourceTree = SOURCE_ROOT; };
+		A9ECAD20227D2E720027DFEB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = CVector/main.cpp; sourceTree = SOURCE_ROOT; };
+		A9ECAD21227D2E730027DFEB /* CVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = CVector.hpp; path = CVector/CVector.hpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +44,7 @@
 		A9B580CB2273BF90001BF182 = {
 			isa = PBXGroup;
 			children = (
-				A9B580D62273BF90001BF182 /* ProyectoAlgoritmos */,
+				A9B580D62273BF90001BF182 /* CVector */,
 				A9B580D52273BF90001BF182 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -57,14 +57,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A9B580D62273BF90001BF182 /* ProyectoAlgoritmos */ = {
+		A9B580D62273BF90001BF182 /* CVector */ = {
 			isa = PBXGroup;
 			children = (
-				A9B580D72273BF90001BF182 /* main.cpp */,
-				A9B580DE2273BFBE001BF182 /* CVector.cpp */,
-				A9B580DF2273BFBE001BF182 /* CVector.hpp */,
+				A9ECAD1F227D2E720027DFEB /* CVector.cpp */,
+				A9ECAD21227D2E730027DFEB /* CVector.hpp */,
+				A9ECAD20227D2E720027DFEB /* main.cpp */,
 			);
-			path = ProyectoAlgoritmos;
+			path = CVector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,8 +123,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9B580E02273BFBE001BF182 /* CVector.cpp in Sources */,
-				A9B580D82273BF90001BF182 /* main.cpp in Sources */,
+				A9ECAD22227D2E730027DFEB /* CVector.cpp in Sources */,
+				A9ECAD23227D2E730027DFEB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
