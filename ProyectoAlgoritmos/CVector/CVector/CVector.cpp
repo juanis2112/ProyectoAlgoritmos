@@ -234,7 +234,7 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
 
 // Operator *
 template <typename numberType>
-Cvector<numberType> operator * (const Cvector<numberType> &x, const double &y){
+Cvector<numberType> operator * (const Cvector<numberType> &x, const numberType &y){
     Cvector<numberType> result;
     result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
@@ -246,7 +246,7 @@ Cvector<numberType> operator * (const Cvector<numberType> &x, const double &y){
 
 // Operator /
 template <typename numberType>
-Cvector<numberType> operator / (const Cvector<numberType> &x, const double &y){
+Cvector<numberType> operator / (const Cvector<numberType> &x, const numberType &y){
     Cvector<numberType> result;
 	result.length = x.length;
     // if y= 0 ERROR
@@ -259,7 +259,7 @@ Cvector<numberType> operator / (const Cvector<numberType> &x, const double &y){
 
 // Operator ^
 template <typename numberType>
-Cvector<numberType> operator ^ (const Cvector<numberType> &x,  int y){
+Cvector<numberType> operator ^ (const Cvector<numberType> &x, const numberType y){
     Cvector<numberType> result(x);
 	result.length = x.length;
     for (int i = 0; i < y; i++){

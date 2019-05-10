@@ -44,7 +44,7 @@ Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x, bool ax
     }
     
     else if (axis == true){
-        numberType b = 0;
+        numberType b = numberType{};
         Cvector<numberType> tmp(size,b);
         capacity = x.size() + Initial_Capacity;
         array = new Cvector<numberType> [capacity];
@@ -67,7 +67,7 @@ Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
     nCols = col;
     capacity = nRows + Initial_Capacity;
     array = new Cvector<numberType> [capacity];
-    Cvector<int> tmp(nCols,0);
+    Cvector<numberType> tmp(nCols,0);
     if (type == true){
         for (size_t i = 0; i < nRows ; i++){
             tmp.array[i] = 1;
@@ -81,7 +81,6 @@ Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
             array[i] = tmp;
             }
         }
-    
 }
 
 // -------------------------------------Destructor------------------------------------------
@@ -123,7 +122,18 @@ numberType& Cmatrix<numberType>::operator () (size_t row, size_t col){
     return array[row][col];
 }
 
-
+//// Operator ()
+//template <typename numberType>
+//Cvector<numberType> Cmatrix<numberType>::operator () (size_t idx, bool type){
+//    if (type == false){
+//        return array[idx];
+//    }
+//    Cvector<numberType> tmp;
+//    for (size_t i = 0; i < nRows; i++){
+//        tmp.push(array[i][idx]);
+//    }
+//    return tmp;
+//}
 
 // Operator <<
 template <typename numberType>
@@ -265,7 +275,7 @@ Cmatrix<numberType> operator - (const Cmatrix<numberType> &x, const Cmatrix<numb
         }
 
         for (size_t i = x.nRows; i < y.nRows; i++){
-            result.array[i] = y.array[i] * (-1);
+            result.array[i] = y.array[i] * (double(-1));
         }
         result.nRows = y.nRows;
     }
@@ -276,7 +286,7 @@ Cmatrix<numberType> operator - (const Cmatrix<numberType> &x, const Cmatrix<numb
         }
 
         for (size_t i = y.nRows; i < x.nRows; i++){
-            result.array[i] = x.array[i] * (-1);
+            result.array[i] = x.array[i] * (double(-1));
         }
         result.nRows = x.nRows;
     }
@@ -286,7 +296,7 @@ Cmatrix<numberType> operator - (const Cmatrix<numberType> &x, const Cmatrix<numb
 
 
 
-// Operator *
+// Operator * Matrix - Escalar Multiplication
 template <typename numberType>
 Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y){
     Cmatrix<numberType> result;
@@ -301,22 +311,20 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y){
 // Operator * Matrix Multiplication
 template <typename numberType>
 Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType> &y){
-    Cmatrix<numberType> result;
-    
-    size_t xRows = x.nRows();
-    size_t yRows = y.nRows();
-    size_t xCols = x.nCols();
-    size_t yCols = y.nCols();
+    Cmatrix<numberType> result(x.numberRows(), y.numberCols(), false);
+    size_t xRows = x.numberRows();
+    size_t yRows = y.numberRows();
+    size_t xCols = x.numberCols();
+    size_t yCols = y.numberCols();
     assert(xCols == yRows);
     
     for (int i = 0; i < xRows; i++)
     {
         for (int j = 0; j < yCols; j++)
         {
-            result[i][j] = 0;
             for (int k = 0; k < yRows; k++)
             {
-                result[i][j] += x[i][k] * y[k][j];
+                result(i,j) += x(i,k) * y(k,j);
             }
         }
     }
@@ -324,31 +332,30 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType
 }
 
 //// Operator * Matrix - Vector Multiplication
-//
+
 //template <typename numberType>
-//Cmatrix<numberType> operator * (const Cvector<numberType> &v, Cmatrix<numberType> &x){
-//    Cmatrix<numberType> result;
+//Cvector<numberType> operator * (const Cvector<numberType> &v, Cmatrix<numberType> &x){
+//    
+//    Cvector<numberType> result(x.numberRows(),0);
+//    size_t vRows = 1;
+//    size_t vCols = v.size();
+//    size_t xRows = x.numberRows();
+//    size_t xCols = x.numberCols();
 //
-//    vRows = 1;
-//    vCols = v.size();
-//    xRows = x.nRows();
-//    xCols = x.nCols();
+//    assert(vCols == xRows);
 //
-//    assert(vCols() == xRows());
-//
-//    for (j = 0; j < yCols; j++)
+//    for (size_t j = 0; j < vCols; j++)
 //    {
-//        result[i][j] = 0;
-//        for (k = 0; k < yRows; k++)
+//        for (size_t k = 0; k < xRows; k++)
 //        {
-//            result[i][j] += x[i][k] * y[k][j];
+//            result[k] += v[k] * x(k,j);
 //        }
 //    }
 //
 //    return result;
 //}
-//
-//// Operator *
+
+//// Operator *  Vector - Matrix  Multiplication
 //template <typename numberType>
 //Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cvector<numberType> &y){
 //    Cmatrix<numberType> result;
@@ -366,7 +373,6 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType
 //return result;
 //}
 
-
 // Operator /
 template <typename numberType>
 Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y){
@@ -381,7 +387,7 @@ Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y){
 
 //// Operator ^
 //template <typename numberType>
-//Cmatrix<numberType> operator ^ (const Cmatrix<numberType> &x, const Cmatrix<numberType> &y){
+//Cmatrix<numberType> operator ^ (const Cmatrix<numberType> &x, const numberType &y){
 //    Cmatrix<numberType> result(x);
 //    for (size_t i = 0; i < y.array[0]; i++){
 //        result.array *= x.array;
@@ -465,27 +471,14 @@ bool Cmatrix<numberType>::empty() const{
 
 // nCols
 template <typename numberType>
-size_t Cmatrix<numberType>::size() const{
+size_t Cmatrix<numberType>::numberRows() const{
     return nRows;
 }
 
-// Rows
+// nRows
 template <typename numberType>
-size_t Cmatrix<numberType>::nRows() const{
-    return array[0].size();
-}
-
-// Identity
-template <typename numberType>
-Cmatrix<int> Cmatrix<numberType>::Identity(size_t indx){
-	Cvector<int> tmp(indx,0);
-	Cmatrix<int> result;
-	for (size_t i = 0; i < indx; i++){
-		tmp.array[i] = 1;
-		result.push(tmp);
-		tmp.array[i] = 0;
-		}
-	return result;    
+size_t Cmatrix<numberType>::numberCols() const{
+    return nCols;
 }
 
 // Access
@@ -494,36 +487,142 @@ numberType Cmatrix<numberType>::access(size_t row, size_t col) const{
     return this -> array[row][col];
 }
 
+// Swap_r
+template <typename numberType>
+void Cmatrix<numberType>::swap_r(size_t row1, size_t row2){
+    Cvector<numberType> tmp = array[row1];
+    array[row1] = array[row2];
+    array[row2] = tmp;
+}
+
+// Swap_c
+template <typename numberType>
+void Cmatrix<numberType>::swap_c(size_t col1, size_t col2){
+    Cvector<numberType> tmp1;
+    Cvector<numberType> tmp2;
+    tmp1 = (this -> transpose()).array[col1];
+    tmp2 = (this -> transpose()).array[col2];
+    for (size_t i = 0; i < nRows; i++){
+        (array[i])[col1] = tmp2[i];
+        (array[i])[col2] = tmp1[i];
+    }
+    
+}
+
+// Abs
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::abs(){
+    Cmatrix<numberType> result(nRows, nCols, false);
+    for (size_t i = 0; i < nRows; i++){
+        for (size_t j = 0; j < nCols; j++){
+            (result.array[i])[j] = fabs((array[i])[j]);
+        }
+    }
+    return result;
+}
+
+// Transpose
 template <typename numberType>
 Cmatrix<numberType> Cmatrix<numberType>::transpose() {
-    size_t nRows = this->nCols();
-    size_t nCols = this->nRows();
-    
-    Cmatrix<numberType> t(nRows, nCols);
-    
+    size_t r = this->numberCols();
+    size_t c = this->numberRows();
+    Cmatrix<numberType> t(r, c, false);
     for (size_t i = 0; i < nCols; i++) {
         for(size_t j = 0; j < nRows; j++) {
             t.array[i][j]=this->array[j][i];
         }
     }
-    
     return t;
 }
 
-// LU
+// Upper Triangular
 template <typename numberType>
-int Cmatrix<numberType>::LUP(Cmatrix<numberType> &A, double Tol) {
-//Cvector<Cmatrix<double>> Cmatrix<numberType>::LUP(Cmatrix<numberType> &A, double Tol) {
+Cmatrix<numberType> Cmatrix<numberType>::upperTriangular() {
+    size_t r=numberRows();
+    size_t c=numberCols();
+    Cmatrix<double> t(r, c, false);
+    for (size_t i = 0; i < numberRows(); i++) {
+        for (size_t j = 0; j < numberCols() ; j++) {
+            t(i,j) = ( i <= j ? this->array[i][j] : 0 );
+        }
+    }
+    return t;
+}
+
+// Lower Triangular
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::lowerTriangular() {
+    size_t r=numberRows();
+    size_t c=numberCols();
+    Cmatrix<numberType> t(r, c, false);
+    for (size_t i = 0; i < numberRows(); i++) {
+        for (size_t j = 0; j < numberCols(); j++) {
+            t(i,j) = ( i >= j ? this->array[i][j] : 0 );
+        }
+    }
+    return t;
+}
+
+// Identity
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::eye(size_t N) {
+    Cmatrix<numberType> t(N, N, false);
+    for (size_t i = 0; i < N; i++) {
+        for (size_t j = 0; j < N; j++) {
+            t(i,j) = ( i == j ? 1 : 0 );
+        }
+    }
+    return t;
+}
+
+// Zeros
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::zeros(size_t rows, size_t cols) {
+    Cmatrix<numberType> t(rows, cols, false);
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            t(i,j) = 0;
+        }
+    }
+    return t;
+}
+
+// Ones Matrix
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::ones(size_t rows, size_t cols) {
+    Cmatrix<numberType> t(rows, cols, false);
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            t(i,j) = 1;
+        }
+    }
+    return t;
+}
+
+// Random
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::random(size_t rows, size_t cols) {
+    Cmatrix<numberType> t(rows, cols, false);
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            t(i,j) = rand();
+        }
+    }
+    return t;
+}
+
+// LUP
+template <typename numberType>
+tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::LUP(double Tol) {
     
+    Cmatrix<numberType> A(*this);
     size_t j, k, indexMax;
     double maxPivot, absA;
-    //Cmatrix<double> P;
     Cmatrix<double> L;
     Cmatrix<double> U;
     
-    
-    //assert(A.nRows()!=A.nCols());
-    size_t N = A.nRows();
+    //assert(A.numberRows()!=A.numberCols());
+    size_t N = A.numberRows();
     Cvector<double> P;
     for (size_t i = 0; i <= N; i++)
         P.push(i);
@@ -543,18 +642,17 @@ int Cmatrix<numberType>::LUP(Cmatrix<numberType> &A, double Tol) {
         //if (maxPivot < Tol) return 0; //failure, matrix is degenerate
         
         if (indexMax != i) {
-            //pivoting P
+            //Finding Pivots
             j = P[i];
             P[i] = P[indexMax];
             P[indexMax] = j;
             
-            //pivoting rows of A
+            // Permuting rows
             Cvector<double> PivotVector;
             PivotVector = A.array[i];
             A.array[i] = A.array[indexMax];
             A.array[indexMax] = PivotVector;
             
-            //counting pivots starting from N (for determinant)
             P[N]++;
             
         }
@@ -564,32 +662,31 @@ int Cmatrix<numberType>::LUP(Cmatrix<numberType> &A, double Tol) {
             
             for (k = i + 1; k < N; k++)
                 A.array[j][k] -= A.array[j][i] * A.array[i][k];
-        
         }
-        
-        
     }
+    U = A.upperTriangular();
+    L = A-A.upperTriangular()+Cmatrix<double>::eye(N);
     
-//    Cvector<Cmatrix<double>> result;
-//    result.length= 3;
-//    //result.array[0] = P;
-//    result.array[1] = L;
-//    result.array[2] = U;
-//    cout<<result;
-    
-    //return result ;
-    cout<<"THis is P    "<<P<< endl;
-    return 1;
+    return make_tuple(P, L, U);
 }
 
 // Determinant
-//template <typename numberType>
-//numberType Cmatrix<numberType>::LUP(Cmatrix<numberType> &A){
-
+template <typename numberType>
+double Cmatrix<numberType>::determinant(){
+    Cmatrix<numberType> A(*this);
+    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> lup = A.LUP(0.0001);
+    Cvector<double> P = get<0>(lup);
+    Cmatrix<double> L = get<1>(lup);
+    Cmatrix<double> U = get<2>(lup);
     
-    
+    double detU = 1;
+    double exp = P[P.size()-1]-(P.size()-1);
+    double detP = pow(-1,exp);
+    for (size_t i = 0; i<U.numberCols(); i++) detU*=U(i,i);
+    double detA = detU*detP;
+    return detA;
 
-
+}
 
 
 //--------------------------------------Expand Capacity--------------------------------------------

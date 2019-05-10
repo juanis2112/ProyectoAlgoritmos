@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <tuple>
 #include "../../CVector/CVector/CVector.hpp"
 using namespace std;
 
@@ -67,6 +68,7 @@ class Cmatrix{
         // Friend operators
         numberType operator () (size_t row, size_t col) const;
         numberType & operator () (size_t row, size_t col);
+        //Cvector<numberType> operator () (size_t idx, bool type);
     
         friend Cmatrix<bool> operator == <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
         friend Cmatrix<bool> operator != <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
@@ -85,18 +87,33 @@ class Cmatrix{
 //        //friend Cmatrix<Cvector<numberType>>  operator^ <>(const Cmatrix<Cvector<numberType>> &x, const Cmatrix<Cvector<numberType>> &y);
     
 
-	Cmatrix<int> Identity(size_t indx);
-
     void push (const Cvector<numberType> &value);
     void erase(size_t index);
     void insert (size_t index, const Cvector<numberType> & value);
     void clear();
     bool empty() const;
-    size_t nCols() const;
-    size_t nRows() const;
+    
+    // Getters
+    size_t numberCols() const;
+    size_t numberRows() const;
 	numberType access (size_t row, size_t cod) const;
+    
     Cmatrix<numberType> transpose();
-    int LUP(Cmatrix<numberType> &A, double Tol);
+    Cmatrix<numberType> lowerTriangular();
+    Cmatrix<numberType> upperTriangular();
+    static Cmatrix<numberType> eye(size_t N);
+    static Cmatrix<numberType> zeros(size_t rows, size_t cols);
+    static Cmatrix<numberType> ones(size_t rows, size_t cols);
+    static Cmatrix<numberType> random(size_t rows, size_t cols);
+    
+    
+    void swap_r(size_t row1, size_t row2);
+    void swap_c(size_t col1, size_t col2);
+    Cmatrix<numberType> abs();
+    
+    
+    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
+    double determinant();
 
 	public:
 		Cvector<numberType> * array;

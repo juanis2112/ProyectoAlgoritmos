@@ -12,14 +12,56 @@
 using namespace std;
 
 int main() {
-    Cvector<int> tmp;
-    for (int i = 1; i < 5; i++) tmp.push(i*10);
-    Cmatrix<int> r(3,tmp);
-    cout << r << endl;
-    Cmatrix<int> t(3,4,false);
-    cout << t << endl;
+//    Cvector<int> tmp;
+//    for (int i = 1; i < 5; i++) tmp.push(i*10);
+//    Cmatrix<int> x(3,tmp);
+//    cout << x << endl;
+//    
+//    Cvector<int> tmp2;
+//    for (int i = 1; i < 4; i++) tmp2.push(i);
+//    Cmatrix<int> y(4,tmp2);
+//    cout << y << endl;
+//    Cmatrix<int> z;
+
+    Cvector<double> v;
+    v.push(1);
+    v.push(4);
+    v.push(3);
+    Cmatrix<double> r (3,v);
+    r.array[1][1] = -1;
+    r.array[0][1] = -3;
+    r.array[2][2] = -2;
+    cout<<r<<endl;
+    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> c = r.LUP(0.001);
+    cout<<"P:"<<get<0>(c)<<endl;
+    cout<<"L:"<<get<1>(c)<<endl;
+    cout<<"U:"<<get<2>(c)<<endl;
+    double det = r.determinant();
+    cout<<det;
     
     
-	//cout << r.access(7,5) << endl; 
-	return 0;
+//    Cmatrix<double> m;
+//    Cmatrix<double> n;
+//    Cmatrix<double> o;
+//    Cmatrix<double> ra;
+//    cout<<"Esto es un vector"<<r[1]<<endl;
+//    Cmatrix<double> m = r.transpose();
+//    cout<<"tranpose:"<<m<<endl;
+//    Cmatrix<double> u = r.lowerTriangular();
+//    cout<<"lower"<<u<<endl;
+//    Cmatrix<double> s = r.upperTriangular();
+//    cout<<"lower"<<s<<endl;
+//    
+//    m = Cmatrix<double>::eye(8);
+//    cout<<m<<endl;
+//
+//    n = Cmatrix<double>::zeros(8,3);
+//    cout<<n<<endl;
+//
+//    o = Cmatrix<double>::ones(8,3);
+//    cout<<o<<endl;
+//
+//    ra = Cmatrix<double>::random(8,3);
+//    cout<<ra<<endl;
+	 return 0;
 }

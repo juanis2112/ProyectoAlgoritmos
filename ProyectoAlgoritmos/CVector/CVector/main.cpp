@@ -11,7 +11,7 @@ int main(){
     Cvector<double> q(p);
 	//for (int i = 0; i < 10 ; i++) q.insert(0,i);
     Cvector<double> r;
-    r = p^3.0;
+    r = p ^ 3.0;
     cout << p << endl;
 	cout << q << endl;
     cout << r << endl;

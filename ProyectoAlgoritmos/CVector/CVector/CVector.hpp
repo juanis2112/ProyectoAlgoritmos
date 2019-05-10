@@ -25,9 +25,9 @@ template <typename numberType> Cvector<bool>  operator >= (const Cvector<numberT
 template <typename numberType> Cvector<bool>  operator <= (const Cvector<numberType> &x , const Cvector<numberType> &y);
 template <typename numberType> Cvector<numberType>  operator + (const Cvector<numberType> & x, const Cvector<numberType> & y);
 template <typename numberType> Cvector<numberType>  operator - (const Cvector<numberType> & x, const Cvector<numberType> & y);
-template <typename numberType> Cvector<numberType>  operator * (const Cvector<numberType> &x, const double &y);
-template <typename numberType> Cvector<numberType>  operator / (const Cvector<numberType> &x, const double &y);
-template <typename numberType> Cvector<numberType>  operator ^ (const Cvector<numberType> &x, int y);
+template <typename numberType> Cvector<numberType>  operator * (const Cvector<numberType> &x, const numberType &y);
+template <typename numberType> Cvector<numberType>  operator / (const Cvector<numberType> &x, const numberType &y);
+template <typename numberType> Cvector<numberType>  operator ^ (const Cvector<numberType> &x, const numberType y);
 template <typename numberType> ostream & operator << (ostream &os, const Cvector<numberType> &rhs);
 
 
@@ -68,9 +68,9 @@ public:
     // Binary operators
     friend Cvector<numberType>  operator + <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
     friend Cvector<numberType>  operator - <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
-    friend Cvector<numberType>  operator * <>(const Cvector<numberType> &x, const double &y);
-    friend Cvector<numberType>  operator / <>(const Cvector<numberType> &x, const double &y);
-    friend Cvector<numberType>  operator ^ <>(const Cvector<numberType> &x, int y);
+    friend Cvector<numberType>  operator * <>(const Cvector<numberType> &x, const numberType &y);
+    friend Cvector<numberType>  operator / <>(const Cvector<numberType> &x, const numberType &y);
+    friend Cvector<numberType>  operator ^ <>(const Cvector<numberType> &x, const numberType y);
     
 //------------------------------------------CLASS METHODS------------------------------------------------------
     
