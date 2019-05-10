@@ -63,10 +63,21 @@ Cvector<numberType>  Cvector<numberType>::operator=(const Cvector &rhs){
 
 // Operator []
 template <typename numberType>
-numberType Cvector<numberType>::operator [] (size_t idx){
-    
+numberType Cvector<numberType>::operator [] (size_t idx) const {
     return array[idx];
 }
+
+// Operator []
+template <typename numberType>
+numberType & Cvector<numberType>::operator [](size_t idx){
+    return array[idx];
+}
+
+//// Operator []=
+//template <typename numberType>
+//void Cvector<numberType>::operator []= (size_t idx, numberType value){
+//    array[idx] = value;
+//}
 
 //-------------------------------------Friend operators ------------------------------------------
 //// Comparisson Operators
@@ -223,7 +234,7 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
 
 // Operator *
 template <typename numberType>
-Cvector<numberType> operator * (const Cvector<numberType> &x, const int &y){
+Cvector<numberType> operator * (const Cvector<numberType> &x, const double &y){
     Cvector<numberType> result;
     result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
@@ -235,7 +246,7 @@ Cvector<numberType> operator * (const Cvector<numberType> &x, const int &y){
 
 // Operator /
 template <typename numberType>
-Cvector<numberType> operator / (const Cvector<numberType> &x, const int &y){
+Cvector<numberType> operator / (const Cvector<numberType> &x, const double &y){
     Cvector<numberType> result;
 	result.length = x.length;
     // if y= 0 ERROR
@@ -282,7 +293,7 @@ double Cvector<numberType>::dot(Cvector<numberType> arr){
 template <typename numberType>
 Cvector<numberType> Cvector<numberType>::cross(Cvector<numberType> arr){
     Cvector<numberType> out;
-
+    out.length = arr.length;
     out.push((this -> array[1] * arr.array[2]) - (arr.array[1] * this -> array[2]));
     double x = (this -> array[0] * arr.array[2]) - (arr.array[0] * this -> array[2]);
     out.push(-1 * x);
@@ -325,72 +336,29 @@ void Cvector<numberType>::push(numberType value){
 // Erase
 template <typename numberType>
 void Cvector<numberType>::erase(size_t index){
-    if(index == length - 1){
-        --length;
-    }
-    else if(index < 0 || index > length){
-        cout << "This index is not in the vector" << endl;
-    }
-    else{
-        numberType *Oldarray = array;
-        array = new numberType[capacity];
-        for(size_t i = 0; i < index; i++){
-            array[i] = Oldarray[i];
-        }
-        for(size_t i = index + 1; i < length; i++){
-            array[i-1] = Oldarray[i];
-        }
-        delete[]Oldarray;
-        --length;
-    }
+    for (size_t i = index; i < length-1; i++) array[i] = array[i+1];
+    length --;
 }
 
 // Insert
 template <typename numberType>
 void Cvector<numberType>::insert (size_t index, numberType value){
-    if(index == length) {
-        push(value);
-    }
-    else{
-        if(length == capacity) {
-            expandCapacity();
-        }
-        numberType *Oldarray = array;
-        array = new numberType[capacity];
-        if(index == 0){
-            array[0] = value;
-            for (size_t i = 1; i <= length; i++){
-                array[i] = Oldarray[i-1];
-            }
-        }
-        else{
-            for (size_t i = 0; i < index; i++) array[i] = Oldarray[i];
-            array[index] = value;
-            for (size_t i = index + 1; i <= length; i++) array[i] = Oldarray[i-1];
-        }
-        delete[]Oldarray;
-        length++;
-    }
+    if (length == capacity) expandCapacity();
+    for (size_t i = length; i > index; i--) array[i] = array[i-1];
+    array[index] = value;
+    length++;
 }
 
 // Clear
 template <typename numberType>
 void Cvector<numberType>::clear(){
-    numberType *Oldarray = array;
-    array = new numberType[capacity];
     length = 0;
-    delete[]Oldarray;
 }
 
 // Empty
 template <typename numberType>
 bool Cvector<numberType>::empty() const{
-    if(length == 0){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return (length == 0);
 }
 
 // Size
@@ -398,6 +366,29 @@ template <typename numberType>
 size_t Cvector<numberType>::size() const{
     return length;
 }
+
+
+// Angle
+template <typename numberType>
+float Cvector<numberType>::angle(Cvector<numberType> &x){
+    float result;
+    numberType dot = this -> dot(x);
+    result = acos((float(dot) / (float(this -> norm()) * float(x.norm()))));
+    return result;
+}
+
+// Projection
+template <typename numberType>
+Cvector<numberType> Cvector<numberType>::proy(Cvector<numberType> &x){
+    Cvector<numberType> result;
+    result.length = x.length;
+    double T = ((double(this -> dot(x))) / (double(pow(this -> norm(),2))));
+    for (size_t i = 0; i < this -> length; i++){
+        result.array[i] = numberType((this -> array[i]) * T);
+    }
+    return result;
+}
+
 
 //--------------------------------------Expand Capacity--------------------------------------------
 

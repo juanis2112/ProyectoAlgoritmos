@@ -12,8 +12,14 @@
 using namespace std;
 
 int main() {
-    Cmatrix<int> r;
-   	
+    Cvector<int> tmp;
+    for (int i = 1; i < 5; i++) tmp.push(i*10);
+    Cmatrix<int> r(3,tmp);
+    cout << r << endl;
+    Cmatrix<int> t(3,4,false);
+    cout << t << endl;
+    
+    
 	//cout << r.access(7,5) << endl; 
 	return 0;
 }

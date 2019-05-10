@@ -25,8 +25,8 @@ template <typename numberType> Cvector<bool>  operator >= (const Cvector<numberT
 template <typename numberType> Cvector<bool>  operator <= (const Cvector<numberType> &x , const Cvector<numberType> &y);
 template <typename numberType> Cvector<numberType>  operator + (const Cvector<numberType> & x, const Cvector<numberType> & y);
 template <typename numberType> Cvector<numberType>  operator - (const Cvector<numberType> & x, const Cvector<numberType> & y);
-template <typename numberType> Cvector<numberType>  operator * (const Cvector<numberType> &x, const int &y);
-template <typename numberType> Cvector<numberType>  operator / (const Cvector<numberType> &x, const int &y);
+template <typename numberType> Cvector<numberType>  operator * (const Cvector<numberType> &x, const double &y);
+template <typename numberType> Cvector<numberType>  operator / (const Cvector<numberType> &x, const double &y);
 template <typename numberType> Cvector<numberType>  operator ^ (const Cvector<numberType> &x, int y);
 template <typename numberType> ostream & operator << (ostream &os, const Cvector<numberType> &rhs);
 
@@ -52,7 +52,9 @@ public:
     
     // Class member operators
     Cvector<numberType> operator =(const Cvector &rhs);   //FUNCIONA
-    numberType operator [] (size_t idx);                 //FUNCIONA
+    numberType operator [] (size_t idx) const;                 //FUNCIONA
+    numberType & operator [](size_t idx);
+    //void operator []= (size_t idx, numberType value); 
     
     // Friend operators
     friend Cvector<bool> operator == <>(const Cvector<numberType> &x , const Cvector<numberType> &y);
@@ -67,8 +69,8 @@ public:
     // Binary operators
     friend Cvector<numberType>  operator + <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
     friend Cvector<numberType>  operator - <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
-    friend Cvector<numberType>  operator * <>(const Cvector<numberType> &x, const int &y);
-    friend Cvector<numberType>  operator / <>(const Cvector<numberType> &x, const int &y);
+    friend Cvector<numberType>  operator * <>(const Cvector<numberType> &x, const double &y);
+    friend Cvector<numberType>  operator / <>(const Cvector<numberType> &x, const double &y);
     friend Cvector<numberType>  operator ^ <>(const Cvector<numberType> &x, int y);
     
 //------------------------------------------CLASS METHODS------------------------------------------------------
@@ -83,6 +85,8 @@ public:
     void clear();
     bool empty() const;
     size_t size() const;
+    float angle (Cvector<numberType> &x);
+    Cvector<numberType> proy(Cvector<numberType> &x);
 
 //---------------------------------------------PRIVATE---------------------------------------------------------
     

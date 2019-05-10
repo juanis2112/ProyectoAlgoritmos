@@ -14,7 +14,8 @@
 // Empty
 template <typename numberType>
 Cmatrix<numberType>::Cmatrix() {
-    count = 0;
+    nRows = 0;
+    nCols = 0;
     capacity = Initial_Capacity;
     array = new Cvector<numberType> [capacity];
 }
@@ -23,29 +24,65 @@ Cmatrix<numberType>::Cmatrix() {
 template <typename numberType>
 Cmatrix<numberType>::Cmatrix(const Cmatrix<numberType> &x){
     capacity = x.capacity + Initial_Capacity;
-    count = x.count;
+    nRows = x.nRows;
+    nCols = x.nCols;
     array = new Cvector<numberType> [capacity];
-    for (size_t i = 0; i < x.count; i++) array[i] = x.array[i];
+    for (size_t i = 0; i < nRows; i++) array[i] = x.array[i];
 }
 
 //Fill
 template <typename numberType>
-Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x){
-    capacity = size + Initial_Capacity;
-    count = size;
-    array = new Cvector<numberType> [capacity];
-    for (size_t i = 0; i < size; i++) array[i] = x;
+Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x, bool axis){
+
+    //PREGUNTAR POR QUE TENGO QUE METER EL TMP Y TAMBIEN POR QUE TENGO QUE INICIALIZAR b!!!!!!!
+    if (axis == false){
+        capacity = size + Initial_Capacity;
+        array = new Cvector<numberType> [capacity];
+        nRows = size;
+        nCols = x.size();
+        for (size_t i = 0; i < nRows; i++) array[i] = x;
+    }
+    
+    else if (axis == true){
+        numberType b = 0;
+        Cvector<numberType> tmp(size,b);
+        capacity = x.size() + Initial_Capacity;
+        array = new Cvector<numberType> [capacity];
+        nRows = x.size();
+        nCols = size;
+        for (size_t i = 0; i < nRows; i++) array[i] = tmp;
+        for (size_t i = 0; i < nRows; i++){
+            for (size_t j = 0; j < nCols; j++){
+                (array[i])[j] = x.array[i];
+            }
+        }
+    }
 }
 
 //Specialized
 template <typename numberType>
-Cmatrix<numberType>:: Cmatrix(size_t row, size_t cod){
-    numberType tmp;
-    Cvector<numberType> p(row,tmp);
-    count = cod;
-    for (size_t i = 0; i < count; i++) array[i] = p;
+Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
+    if (type == true) assert(row == col);
+    nRows = row;
+    nCols = col;
+    capacity = nRows + Initial_Capacity;
+    array = new Cvector<numberType> [capacity];
+    Cvector<int> tmp(nCols,0);
+    if (type == true){
+        for (size_t i = 0; i < nRows ; i++){
+            tmp.array[i] = 1;
+            array[i] = tmp;
+            tmp.array[i] = 0;
+        }
+    }
+    
+    else{
+        for (size_t i = 0; i < nRows ; i++){
+            array[i] = tmp;
+            }
+        }
+    
 }
-
 
 // -------------------------------------Destructor------------------------------------------
 
@@ -61,10 +98,11 @@ Cmatrix<numberType>:: ~Cmatrix(){
 template <typename numberType>
 Cmatrix<numberType> Cmatrix<numberType>::operator=(const Cmatrix<numberType> &rhs){
     Cvector<numberType> *Oldarray = this -> array;
-    this -> capacity = rhs.capacity + Initial_Capacity;
-    this -> array = new Cvector<numberType> [capacity];
-    for (size_t i = 0; i < rhs.count; i++) array[i] = rhs.array[i];
-    this -> count = rhs.count;
+    capacity = rhs.capacity + Initial_Capacity;
+    array = new Cvector<numberType> [capacity];
+    nRows = rhs.nRows;
+    nCols = rhs.nCols;
+    for (size_t i = 0; i < rhs.nRows; i++) array[i] = rhs.array[i];
     delete[] Oldarray;
     return *this;
 }
@@ -72,11 +110,26 @@ Cmatrix<numberType> Cmatrix<numberType>::operator=(const Cmatrix<numberType> &rh
 //-------------------------------------Friend operators ------------------------------------------
 // -------------------------- Comparisson Operators
 
+
+// Operator ()
+template <typename numberType>
+numberType Cmatrix<numberType>::operator () (size_t row, size_t col) const{
+    return array[row][col];
+}
+
+// Operator ()
+template <typename numberType>
+numberType& Cmatrix<numberType>::operator () (size_t row, size_t col){
+    return array[row][col];
+}
+
+
+
 // Operator <<
 template <typename numberType>
 ostream & operator<<(ostream &os, const Cmatrix<numberType> &rhs) {
     os << "[ " << endl;
-    for (size_t i = 0; i < rhs.count; i++) cout << rhs.array[i] << "";
+    for (size_t i = 0; i < rhs.nRows; i++) cout << rhs.array[i] << "";
     os << "]" << endl;
     
     return os;
@@ -86,8 +139,9 @@ ostream & operator<<(ostream &os, const Cmatrix<numberType> &rhs) {
 template <typename numberType>
 Cmatrix<bool> operator == (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    result.nCols = x.nCols;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] == y.array[i]);
     }
     return result;
@@ -98,8 +152,9 @@ Cmatrix<bool> operator == (const Cmatrix<numberType> &x , const Cmatrix<numberTy
 template <typename numberType>
 Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    result.nCols = x.nCols;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] != y.array[i]);
     }
     return result;
@@ -109,8 +164,9 @@ Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberTy
 template <typename numberType>
 Cmatrix<bool> operator <= (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    result.nCols = x.nCols;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] <= y.array[i]);
     }
     return result;
@@ -120,8 +176,8 @@ Cmatrix<bool> operator <= (const Cmatrix<numberType> &x , const Cmatrix<numberTy
 template <typename numberType>
 Cmatrix<bool> operator >= (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] >= y.array[i]);
     }
     return result;
@@ -131,8 +187,9 @@ Cmatrix<bool> operator >= (const Cmatrix<numberType> &x , const Cmatrix<numberTy
 template <typename numberType>
 Cmatrix<bool> operator < (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    result.nCols = x.nCols;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] < y.array[i]);
     }
     return result;
@@ -143,8 +200,9 @@ Cmatrix<bool> operator < (const Cmatrix<numberType> &x , const Cmatrix<numberTyp
 template <typename numberType>
 Cmatrix<bool> operator > (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
     Cmatrix<bool> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    result.nCols = x.nCols;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = (x.array[i] > y.array[i]);
     }
     return result;
@@ -157,33 +215,33 @@ Cmatrix<bool> operator > (const Cmatrix<numberType> &x , const Cmatrix<numberTyp
 template <typename numberType>
 Cmatrix<numberType> operator + (const Cmatrix<numberType> &x, const Cmatrix<numberType> &y){
     Cmatrix<numberType> result;
-    if (x.count == y.count){
-        for (size_t i = 0; i < x.count; i++){
+    if (x.nRows == y.nRows){
+        for (size_t i = 0; i < x.nRows; i++){
             result.array[i] = x.array[i] + y.array[i];
             }
-        result.count = x.count;
+        result.nRows = x.nRows;
         }
 
-    else if (x.count < y.count){
-        for (size_t i = 0; i < x.count; i++){
+    else if (x.nRows < y.nRows){
+        for (size_t i = 0; i < x.nRows; i++){
             result.array[i] = x.array[i] + y.array[i];
             }
 
-        for (size_t i = x.count; i < y.count; i++){
+        for (size_t i = x.nRows; i < y.nRows; i++){
             result.array[i] = y.array[i];
             }
-        result.count = y.count;
+        result.nRows = y.nRows;
         }
 
-    else if (x.count > y.count){
-        for (size_t i = 0; i < y.count; i++){
+    else if (x.nRows > y.nRows){
+        for (size_t i = 0; i < y.nRows; i++){
             result.array[i] = x.array[i] + y.array[i];
         }
 
-        for (size_t i = y.count; i < x.count; i++){
+        for (size_t i = y.nRows; i < x.nRows; i++){
             result.array[i] = x.array[i];
         }
-        result.count = x.count;
+        result.nRows = x.nRows;
     }
 
     return result;
@@ -194,33 +252,33 @@ Cmatrix<numberType> operator + (const Cmatrix<numberType> &x, const Cmatrix<numb
 template <typename numberType>
 Cmatrix<numberType> operator - (const Cmatrix<numberType> &x, const Cmatrix<numberType> &y){
     Cmatrix<numberType> result;
-    if (x.count == y.count){
-        for (size_t i = 0; i < x.count; i++){
+    if (x.nRows == y.nRows){
+        for (size_t i = 0; i < x.nRows; i++){
             result.array[i] = x.array[i] - y.array[i];
         }
-        result.count = x.count;
+        result.nRows = x.nRows;
     }
 
-    else if (x.count < y.count){
-        for (size_t i = 0; i < x.count; i++){
+    else if (x.nRows < y.nRows){
+        for (size_t i = 0; i < x.nRows; i++){
             result.array[i] = x.array[i] - y.array[i];
         }
 
-        for (size_t i = x.count; i < y.count; i++){
+        for (size_t i = x.nRows; i < y.nRows; i++){
             result.array[i] = y.array[i] * (-1);
         }
-        result.count = y.count;
+        result.nRows = y.nRows;
     }
 
-    else if (x.count > y.count){
-        for (size_t i = 0; i < y.count; i++){
+    else if (x.nRows > y.nRows){
+        for (size_t i = 0; i < y.nRows; i++){
             result.array[i] = x.array[i] - y.array[i];
         }
 
-        for (size_t i = y.count; i < x.count; i++){
+        for (size_t i = y.nRows; i < x.nRows; i++){
             result.array[i] = x.array[i] * (-1);
         }
-        result.count = x.count;
+        result.nRows = x.nRows;
     }
 
     return result;
@@ -232,8 +290,8 @@ Cmatrix<numberType> operator - (const Cmatrix<numberType> &x, const Cmatrix<numb
 template <typename numberType>
 Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y){
     Cmatrix<numberType> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = numberType (x.array[i] * y);
     }
     
@@ -244,8 +302,8 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y){
 template <typename numberType>
 Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y){
     Cmatrix<numberType> result;
-    result.count = x.count;
-    for (size_t i = 0; i < x.count; i++){
+    result.nRows = x.nRows;
+    for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = numberType (x.array[i] / y);
     }
     
@@ -267,19 +325,19 @@ Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y){
 // Push
 template <typename numberType>
 void Cmatrix<numberType>::push(const Cvector<numberType> &value){
-    if(count == capacity){
+    if(nRows == capacity){
         expandCapacity();
     }
-    array[count++] = value;
+    array[nRows++] = value;
 }
 
 // Erase
 template <typename numberType>
 void Cmatrix<numberType>::erase(size_t index){
-    if(index == count - 1){
-        --count;
+    if(index == nRows - 1){
+        --nRows;
     }
-    else if(index < 0 || index > count){
+    else if(index < 0 || index > nRows){
         cout << "This index is not in the matrix" << endl;
     }
     else{
@@ -288,58 +346,58 @@ void Cmatrix<numberType>::erase(size_t index){
         for(size_t i = 0; i < index; i++){
             array[i] = Oldarray[i];
         }
-        for(size_t i = index + 1; i < count; i++){
+        for(size_t i = index + 1; i < nRows; i++){
             array[i-1] = Oldarray[i];
         }
         delete[]Oldarray;
-        --count;
+        --nRows;
     }
 }
 
 // Insert
 template <typename numberType>
 void Cmatrix<numberType>::insert (size_t index, const Cvector<numberType> & value){
-    if(index == count) {
+    if(index == nRows) {
         push(value);
     }
     else{
-        if(count == capacity) {
+        if(nRows == capacity) {
             expandCapacity();
         }
         Cvector<numberType> *Oldarray = array;
         array = new Cvector<numberType>[capacity];
         if(index == 0){
             array[0] = value;
-            for (size_t i = 1; i <= count; i++){
+            for (size_t i = 1; i <= nRows; i++){
                 array[i] = Oldarray[i-1];
             }
         }
         else{
             for (size_t i = 0; i < index; i++) array[i] = Oldarray[i];
             array[index] = value;
-            for (size_t i = index + 1; i <= count; i++) array[i] = Oldarray[i-1];
+            for (size_t i = index + 1; i <= nRows; i++) array[i] = Oldarray[i-1];
         }
         delete[]Oldarray;
-        count++;
+        nRows++;
     }
 }
 
 // Clear
 template <typename numberType>
 void Cmatrix<numberType>::clear(){
-    count = 0;
+    nRows = 0;
 }
 
 // Empty
 template <typename numberType>
 bool Cmatrix<numberType>::empty() const{
-    return (count == 0);
+    return (nRows == 0);
 }
 
 // Size
 template <typename numberType>
 size_t Cmatrix<numberType>::size() const{
-    return count;
+    return nRows;
 }
 
 // Identity
@@ -369,7 +427,7 @@ void Cmatrix<numberType>::expandCapacity(){
 Cvector<numberType> *Oldarray = array;
     capacity *= 2;
     array = new Cvector<numberType>[capacity];
-    for(size_t i = 0; i < count; i++){
+    for(size_t i = 0; i < nRows; i++){
         array[i] = Oldarray[i];
     }
     delete[] Oldarray;
