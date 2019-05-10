@@ -21,6 +21,7 @@ using namespace std;
 //*************************************   FRIEND OPERATORS DEFINITIONS   **************************************
 
 template <typename numberType> class Cmatrix;
+//template <typename numberType> numberType operator () (size_t row, size_t col);
 template <typename numberType> Cmatrix<bool> operator == (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 template <typename numberType> Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 template <typename numberType> Cmatrix<bool> operator >(const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
@@ -51,9 +52,9 @@ class Cmatrix{
         // Parametric
         Cmatrix(const Cmatrix<numberType> &x);
         // Fill
-        Cmatrix(size_t size, const Cvector<numberType> &x);
+        Cmatrix(size_t size, const Cvector<numberType> &x, bool axis = false);
         //Specialized
-        Cmatrix(size_t row, size_t cod);
+        Cmatrix(size_t row, size_t col, bool type);
         // Destructor
         ~Cmatrix();
 
@@ -64,6 +65,9 @@ class Cmatrix{
        // numberType operator [:] (size_t row, size_t col);
 
         // Friend operators
+        numberType operator () (size_t row, size_t col) const;
+        numberType & operator () (size_t row, size_t col);
+    
         friend Cmatrix<bool> operator == <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
         friend Cmatrix<bool> operator != <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
         friend Cmatrix<bool> operator > <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
@@ -96,7 +100,7 @@ class Cmatrix{
 
 	public:
 		Cvector<numberType> * array;
-		size_t capacity, count;
+		size_t capacity, nRows, nCols;
 		void expandCapacity();
      
 };
