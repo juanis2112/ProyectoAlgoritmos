@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 #include <cmath>
 #include "../../CVector/CVector/CVector.hpp"
 using namespace std;
@@ -35,7 +36,7 @@ template <typename numberType> Cmatrix<numberType> operator / (const Cmatrix<num
 //template <typename numberType> Cmatrix<Cvector<numberType>>  operator^ (const Cmatrix<Cvector<numberType>> &x, const Cmatrix<Cvector<numberType>> &y);
 
 
-template <typename numberType> ostream & operator<< (ostream &os, const Cmatrix<numberType> &rhs);
+template <typename numberType> ostream & operator<< (ostream &os, Cmatrix<numberType> &rhs);
 
 
 //*********************************************  CLASS DEFINITION   *********************************************
@@ -69,7 +70,7 @@ class Cmatrix{
         friend Cmatrix<bool> operator < <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
         friend Cmatrix<bool> operator >= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
         friend Cmatrix<bool> operator <= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend ostream & operator << <> (ostream &os, const Cmatrix<numberType> &rhs);
+        friend ostream & operator << <> (ostream &os, Cmatrix<numberType> &rhs);
         //friend istream & operator>>(istream &os, const vector &rhs);
 
        // Binary operators
@@ -87,14 +88,17 @@ class Cmatrix{
     void insert (size_t index, const Cvector<numberType> & value);
     void clear();
     bool empty() const;
-    size_t size() const;
+    size_t nCols() const;
+    size_t nRows() const;
 	numberType access (size_t row, size_t cod) const;
+    Cmatrix<numberType> transpose();
+    int LUP(Cmatrix<numberType> &A, double Tol);
 
 	public:
 		Cvector<numberType> * array;
 		size_t capacity, count;
 		void expandCapacity();
-		
+     
 };
 
 #include "CMatrix.cpp"

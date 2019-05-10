@@ -15,6 +15,8 @@ int main(){
     cout << p << endl;
 	cout << q << endl;
     cout << r << endl;
+    p[1]=0;
+    cout<<p<<endl;
   
     return 0;
 }
