@@ -54,7 +54,6 @@ public:
     Cvector<numberType> operator =(const Cvector &rhs);   //FUNCIONA
     numberType operator [] (size_t idx) const;                 //FUNCIONA
     numberType & operator [](size_t idx);
-    //void operator []= (size_t idx, numberType value); 
     
     // Friend operators
     friend Cvector<bool> operator == <>(const Cvector<numberType> &x , const Cvector<numberType> &y);

@@ -33,7 +33,7 @@ Cvector<numberType>::Cvector(size_t size, numberType value){
     capacity = Initial_Capacity;
     array = new numberType[capacity];
     length = size;
-    for (size_t i = 0; i < size; i++) array[i] = value;
+    for (size_t i = 0; i < length; i++) array[i] = value;
 }
 
 //------------------------------------- DESTRUCTOR -----------------------------------------
