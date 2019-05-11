@@ -88,7 +88,7 @@ ostream & operator<<(ostream &os, const Cvector<numberType> &rhs) {
     os << "[ ";
     for (size_t i = 0; i < rhs.length; i++) cout << rhs.array[i] << " ";
     os << "]" << endl;
-    
+
     return os;
 }
 
@@ -169,29 +169,29 @@ Cvector<numberType> operator + (const Cvector<numberType> &x, const Cvector<numb
             }
         result.length = x.length;
         }
-    
+
     else if (x.length < y.length){
         for (size_t i = 0; i < x.length; i++){
             result.array[i] = x.array[i] + y.array[i];
             }
-        
+
         for (size_t i = x.length; i < y.length; i++){
             result.array[i] = y.array[i];
             }
         result.length = y.length;
         }
-    
+
     else if (x.length > y.length){
         for (size_t i = 0; i < y.length; i++){
             result.array[i] = x.array[i] + y.array[i];
         }
-        
+
         for (size_t i = y.length; i < x.length; i++){
             result.array[i] = x.array[i];
         }
         result.length = x.length;
     }
-    
+
     return result;
 }
 
@@ -205,30 +205,30 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
         }
         result.length = x.length;
     }
-    
-    
+
+
     else if (x.length < y.length){
         for (size_t i = 0; i < x.length; i++){
             result.array[i] = x.array[i] - y.array[i];
         }
-        
+
         for (size_t i = x.length; i < y.length; i++){
             result.array[i] = 0 - y.array[i];
         }
         result.length = y.length;
     }
-    
+
     else if (x.length > y.length){
         for (size_t i = 0; i < y.length; i++){
             result.array[i] = x.array[i] - y.array[i];
         }
-        
+
         for (size_t i = y.length; i < x.length; i++){
             result.array[i] = 0 - x.array[i];
         }
         result.length = x.length;
     }
-    
+
     return result;
 }
 
@@ -240,7 +240,7 @@ Cvector<numberType> operator * (const Cvector<numberType> &x, const numberType &
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = numberType (x.array[i] * y);
     }
-    
+
     return result;
 }
 
@@ -253,7 +253,7 @@ Cvector<numberType> operator / (const Cvector<numberType> &x, const numberType &
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = x.array[i] / y;
     }
-    
+
     return result;
 }
 
@@ -265,7 +265,7 @@ Cvector<numberType> operator ^ (const Cvector<numberType> &x, const numberType y
     for (int i = 0; i < y; i++){
         result =  (result * y);
     }
-    
+
     return result;
 }
 
@@ -401,8 +401,24 @@ void Cvector<numberType>::expandCapacity(){
         array[i] = Oldarray[i];
     }
     delete[] Oldarray;
-    
+
 }
 
-#endif //CVector_hpp
+// ---------------------------------------To double precision -------------------------------------
 
+template <typename numberType>
+Cvector<double> Cvector<numberType>:: toDouble(){
+    Cvector<double> aux;
+    for(unsigned i = 0; i < this -> size(); i++){
+        double aux2 = (double(this -> array[i]));
+        aux.push(aux2);
+        // cout << aux2 << endl;
+    }
+    // cout << aux << endl;
+    *this = aux;
+    return *this;
+}
+
+///////////////////////////////////////////////////////////////
+
+#endif //CVector_hpp

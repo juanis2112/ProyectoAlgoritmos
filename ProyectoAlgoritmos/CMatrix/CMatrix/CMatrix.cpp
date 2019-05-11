@@ -704,6 +704,17 @@ Cvector<numberType> *Oldarray = array;
 
 }
 
+//--------------------------------------To double precision---------------------------------------
+
+template <typename numberType>
+Cmatrix<double> Cmatrix<numberType>:: toDouble(){
+    Cmatrix<double> aux;
+    for(unsigned i = 0; i < this -> nRows; i++){
+        aux.push((this -> array[i]).toDouble());
+    }
+    *this = aux;
+    return *this;
+}
 
 //--------------------------------------Matrix Product--------------------------------------------
 
@@ -718,27 +729,29 @@ Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y){
 
     Cmatrix<numberType> Mout;
 
+    cout << "Las matrices a multiplicar son: " << endl;
+    cout << "Matriz 1: " << fX << " x " << cX << endl;
+    cout << endl;
+    cout << x << endl;
+
+    cout << "Matriz 2: " << fY << " x " << cY << endl;
+    cout << endl;
+    cout << y << endl;
+
     if(cX != fY){
         cout << "No se puede realizar el producto entre matrices. " << endl;
     }
     else{
-        cout << "Las matrices a multiplicar son: " << endl;
-        cout << "Matriz 1: " << fX << " x " << cX << endl;
-        cout << endl;
-        cout << x << endl;
 
-        cout << "Matriz 2: " << fY << " x " << cY << endl;
-        cout << endl;
-        cout << y << endl;
         Cmatrix<numberType> aux = y.transpose();
 
         Cmatrix<numberType> twoMatr;
 
-        for(int i = 0; i < x.array -> size(); i++){
+        for(unsigned i = 0; i < x.array -> size(); i++){
             twoMatr.push(x.array[i]);
         }
 
-        for(int i = 0; i < y.array -> size(); i++){
+        for(unsigned i = 0; i < y.array -> size(); i++){
             twoMatr.push(aux.array[i]);
         }
         // cout << twoMatr << endl;
@@ -754,9 +767,9 @@ Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y){
         numberType d;
         while(Mout.nRows < x.nRows){
             Cvector<numberType> out;
-            for(int j = 0; j < aux.nRows; j++){
+            for(unsigned j = 0; j < aux.nRows; j++){
                 numberType cont = 0;
-                for(int k = 0; k < twoMatr.array[0].size(); k++){
+                for(unsigned k = 0; k < twoMatr.array[0].size(); k++){
                     d = twoMatr.array[n][k] * twoMatr.array[j + (x.array -> size())][k];
                     cont += d;
                 }
@@ -773,7 +786,7 @@ Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y){
 
         // Mout = Mout.transpose();
 
-        cout << "El resultado es la matriz: " << endl;
+        cout << "El resultado es una matriz: " << fX << " x " << cY << endl;
         cout << endl;
     }
 
