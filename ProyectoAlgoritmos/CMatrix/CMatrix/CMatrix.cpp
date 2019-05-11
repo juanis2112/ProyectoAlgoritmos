@@ -689,7 +689,6 @@ double Cmatrix<numberType>::determinant(){
 
 }
 
-
 //--------------------------------------Expand Capacity--------------------------------------------
 
 template <typename numberType>

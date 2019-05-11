@@ -112,8 +112,10 @@ class Cmatrix{
     Cmatrix<numberType> abs();
 
 
+
     tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
     double determinant();
+  
 
     ///////////////////// to double precision
 

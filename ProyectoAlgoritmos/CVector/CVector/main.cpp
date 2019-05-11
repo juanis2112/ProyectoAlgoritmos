@@ -21,7 +21,7 @@ int main(){
         p1.insert(0,double(i));
         p2.insert(0,double(i+10));
     }
-    
+
 
     cout << p1.angle(p2) << endl;
     cout << p1.proy(p2) << endl;
@@ -29,10 +29,43 @@ int main(){
     cout << "p2 :" << p2 << endl;
     p2.erase(2);
     cout << "p2 :" << p2 << endl;
-    
-    
-   
-  
-  
+
+
+    Cvector<int> h;
+    h.push(3);
+    h.push(5);
+    h.push(1);
+    Cvector<Cvector<int>> temp;
+    temp.push(h);
+    h.clear();
+    h.push(2);
+    h.push(1);
+    h.push(0);
+    temp.push(h);
+    h.clear();
+    h.push(0);
+    h.push(1);
+    h.push(0);;
+    temp.push(h);
+    cout << temp << endl;
+    Cvector<Cvector<double>> temp1;
+    temp1 = temp.gram_schmidt(temp);
+    cout << temp1 << endl;
+
+cout << "--------------------------------------------------------------------" << endl;
+    Cvector<int> p10;
+    p10.array[0] = 1;
+    p10.array[1] = 10;
+    p10.length = 2;
+
+
+    Cvector<int> p20;
+    p20.array[0] = 5;
+    p20.array[1] = 10;
+    p20.length = 2;
+
+    cout << p10 -p20 << endl;
+
+
     return 0;
 }
