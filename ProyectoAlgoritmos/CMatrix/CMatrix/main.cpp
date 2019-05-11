@@ -16,12 +16,13 @@ int main() {
 //    for (int i = 1; i < 5; i++) tmp.push(i*10);
 //    Cmatrix<int> x(3,tmp);
 //    cout << x << endl;
-//    
+//
 //    Cvector<int> tmp2;
 //    for (int i = 1; i < 4; i++) tmp2.push(i);
 //    Cmatrix<int> y(4,tmp2);
 //    cout << y << endl;
 //    Cmatrix<int> z;
+
 
     Cvector<double> v;
     v.push(1);
@@ -38,8 +39,8 @@ int main() {
     cout<<"U:"<<get<2>(c)<<endl;
     double det = r.determinant();
     cout<<det;
-    
-    
+
+
 //    Cmatrix<double> m;
 //    Cmatrix<double> n;
 //    Cmatrix<double> o;
@@ -51,7 +52,7 @@ int main() {
 //    cout<<"lower"<<u<<endl;
 //    Cmatrix<double> s = r.upperTriangular();
 //    cout<<"lower"<<s<<endl;
-//    
+//
 //    m = Cmatrix<double>::eye(8);
 //    cout<<m<<endl;
 //
@@ -63,5 +64,36 @@ int main() {
 //
 //    ra = Cmatrix<double>::random(8,3);
 //    cout<<ra<<endl;
-	 return 0;
+
+    cout << endl << endl;
+    // cout << r << endl;
+
+    cout << "//////////////////////////////////////////////////" << endl;
+    cout << endl;
+
+    Cmatrix<double> nr = r.transpose();
+    // cout << nr << endl;
+
+    Cmatrix<double> a = product(r, nr);
+    cout << a << endl;
+
+    //////////////////////////////////////////////////////////////
+
+    cout << "//////////////////////////////////////////////////" << endl;
+    cout << endl;
+
+    Cmatrix<double> t;
+    t.push(v);
+    // cout << t << endl;
+
+    Cmatrix<double> b = product(r, t);
+    cout << b << endl;
+
+    cout << "///////////////////////////////////////////////////" << endl;
+    cout << endl;
+
+    Cmatrix<double> d = product(t, r);
+    cout << d << endl;
+
+	  return 0;
 }

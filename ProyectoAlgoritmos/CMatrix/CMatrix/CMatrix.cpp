@@ -42,7 +42,7 @@ Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x, bool ax
         nCols = x.size();
         for (size_t i = 0; i < nRows; i++) array[i] = x;
     }
-    
+
     else if (axis == true){
         numberType b = numberType{};
         Cvector<numberType> tmp(size,b);
@@ -75,7 +75,7 @@ Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
             tmp.array[i] = 0;
         }
     }
-    
+
     else{
         for (size_t i = 0; i < nRows ; i++){
             array[i] = tmp;
@@ -141,7 +141,7 @@ ostream & operator<<(ostream &os, Cmatrix<numberType> &rhs) {
     os << "[ " << endl;
     for (size_t i = 0; i < rhs.nRows; i++) cout << rhs.array[i] << "";
     os << "]" << endl;
-    
+
     return os;
 }
 
@@ -304,7 +304,7 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y){
     for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = numberType (x.array[i] * y);
     }
-    
+
     return result;
 }
 
@@ -317,7 +317,7 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType
     size_t xCols = x.numberCols();
     size_t yCols = y.numberCols();
     assert(xCols == yRows);
-    
+
     for (int i = 0; i < xRows; i++)
     {
         for (int j = 0; j < yCols; j++)
@@ -335,7 +335,7 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType
 
 //template <typename numberType>
 //Cvector<numberType> operator * (const Cvector<numberType> &v, Cmatrix<numberType> &x){
-//    
+//
 //    Cvector<numberType> result(x.numberRows(),0);
 //    size_t vRows = 1;
 //    size_t vCols = v.size();
@@ -381,7 +381,7 @@ Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y){
     for (size_t i = 0; i < x.nRows; i++){
         result.array[i] = numberType (x.array[i] / y);
     }
-    
+
     return result;
 }
 
@@ -404,6 +404,7 @@ void Cmatrix<numberType>::push(const Cvector<numberType> &value){
         expandCapacity();
     }
     array[nRows++] = value;
+    nCols = value.size();
 }
 
 // Erase
@@ -506,7 +507,7 @@ void Cmatrix<numberType>::swap_c(size_t col1, size_t col2){
         (array[i])[col1] = tmp2[i];
         (array[i])[col2] = tmp1[i];
     }
-    
+
 }
 
 // Abs
@@ -614,23 +615,23 @@ Cmatrix<numberType> Cmatrix<numberType>::random(size_t rows, size_t cols) {
 // LUP
 template <typename numberType>
 tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::LUP(double Tol) {
-    
+
     Cmatrix<numberType> A(*this);
     size_t j, k, indexMax;
     double maxPivot, absA;
     Cmatrix<double> L;
     Cmatrix<double> U;
-    
+
     //assert(A.numberRows()!=A.numberCols());
     size_t N = A.numberRows();
     Cvector<double> P;
     for (size_t i = 0; i <= N; i++)
         P.push(i);
-    
+
     for (size_t i = 0; i < N; i++) {
         maxPivot = 0;
         indexMax = i;
-        
+
         for (k = i; k < N; k++){
             absA = fabs(A.array[k][i]);
             if (absA > maxPivot) {
@@ -638,35 +639,35 @@ tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<num
                 indexMax = k;
             }
         }
-        
+
         //if (maxPivot < Tol) return 0; //failure, matrix is degenerate
-        
+
         if (indexMax != i) {
             //Finding Pivots
             j = P[i];
             P[i] = P[indexMax];
             P[indexMax] = j;
-            
+
             // Permuting rows
             Cvector<double> PivotVector;
             PivotVector = A.array[i];
             A.array[i] = A.array[indexMax];
             A.array[indexMax] = PivotVector;
-            
+
             P[N]++;
-            
+
         }
-        
+
         for (j = i + 1; j < N; j++) {
             A.array[j][i] /= A.array[i][i];
-            
+
             for (k = i + 1; k < N; k++)
                 A.array[j][k] -= A.array[j][i] * A.array[i][k];
         }
     }
     U = A.upperTriangular();
     L = A-A.upperTriangular()+Cmatrix<double>::eye(N);
-    
+
     return make_tuple(P, L, U);
 }
 
@@ -678,7 +679,7 @@ double Cmatrix<numberType>::determinant(){
     Cvector<double> P = get<0>(lup);
     Cmatrix<double> L = get<1>(lup);
     Cmatrix<double> U = get<2>(lup);
-    
+
     double detU = 1;
     double exp = P[P.size()-1]-(P.size()-1);
     double detP = pow(-1,exp);
@@ -700,7 +701,86 @@ Cvector<numberType> *Oldarray = array;
         array[i] = Oldarray[i];
     }
     delete[] Oldarray;
-    
+
 }
+
+
+//--------------------------------------Matrix Product--------------------------------------------
+
+template <typename numberType>
+Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y){
+
+    unsigned fX = x.nRows;
+    unsigned cX = x.nCols;
+
+    unsigned fY = y.nRows;
+    unsigned cY = y.nCols;
+
+    Cmatrix<numberType> Mout;
+
+    if(cX != fY){
+        cout << "No se puede realizar el producto entre matrices. " << endl;
+    }
+    else{
+        cout << "Las matrices a multiplicar son: " << endl;
+        cout << "Matriz 1: " << fX << " x " << cX << endl;
+        cout << endl;
+        cout << x << endl;
+
+        cout << "Matriz 2: " << fY << " x " << cY << endl;
+        cout << endl;
+        cout << y << endl;
+        Cmatrix<numberType> aux = y.transpose();
+
+        Cmatrix<numberType> twoMatr;
+
+        for(int i = 0; i < x.array -> size(); i++){
+            twoMatr.push(x.array[i]);
+        }
+
+        for(int i = 0; i < y.array -> size(); i++){
+            twoMatr.push(aux.array[i]);
+        }
+        // cout << twoMatr << endl;
+
+        // twoMatr.transpose();
+
+        // cout << twoMatr << endl;
+
+        int n = 0;
+        // cout << Mout.array -> size() << endl;
+        // cout << x.array -> size() << endl;
+        // cout << y.array -> size() << endl;
+        numberType d;
+        while(Mout.nRows < x.nRows){
+            Cvector<numberType> out;
+            for(int j = 0; j < aux.nRows; j++){
+                numberType cont = 0;
+                for(int k = 0; k < twoMatr.array[0].size(); k++){
+                    d = twoMatr.array[n][k] * twoMatr.array[j + (x.array -> size())][k];
+                    cont += d;
+                }
+                out.push(cont);
+
+                // cout << cont << endl;
+                // cout << out << endl;
+            }
+            n++;
+            Mout.push(out);
+            // cout << Mout.array -> size() << endl;
+            // cout << Mout << endl;
+        }
+
+        // Mout = Mout.transpose();
+
+        cout << "El resultado es la matriz: " << endl;
+        cout << endl;
+    }
+
+    return Mout;
+}
+
+
+/////////////////////////////////////////////////////////////////
 
 #endif // CMatrix_hpp
