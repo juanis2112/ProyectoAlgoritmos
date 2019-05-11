@@ -427,4 +427,22 @@ void Cvector<numberType>::expandCapacity(){
 
 }
 
+
+// ---------------------------------------To double precision -------------------------------------
+
+template <typename numberType>
+Cvector<double> Cvector<numberType>:: toDouble(){
+    Cvector<double> aux;
+    for(unsigned i = 0; i < this -> size(); i++){
+        double aux2 = (double(this -> array[i]));
+        aux.push(aux2);
+        // cout << aux2 << endl;
+    }
+    // cout << aux << endl;
+    *this = aux;
+    return *this;
+}
+
+///////////////////////////////////////////////////////////////
+
 #endif //CVector_hpp

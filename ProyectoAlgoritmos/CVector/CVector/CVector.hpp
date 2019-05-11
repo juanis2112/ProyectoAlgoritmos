@@ -11,6 +11,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 
 const int Initial_Capacity = 10;
@@ -87,6 +88,12 @@ public:
     float angle (Cvector<numberType> &x);
     Cvector<numberType> proy(Cvector<numberType> &x);
     Cvector<Cvector<double>>  gram_schmidt(const Cvector<numberType> &rhs);
+
+    ///////////////////// to double precision
+
+    Cvector<double> toDouble();
+
+    ///////////////////////////////
 
 //---------------------------------------------PRIVATE---------------------------------------------------------
 

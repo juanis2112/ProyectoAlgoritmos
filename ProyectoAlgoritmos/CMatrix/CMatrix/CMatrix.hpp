@@ -119,7 +119,7 @@ class Cmatrix{
 
     ///////////////////// to double precision
 
-    // Cmatrix<numberType> toDouble(const Cmatrix<numberType> &x);
+    Cmatrix<double> toDouble();
 
     ///////////////////////////////
 	public:

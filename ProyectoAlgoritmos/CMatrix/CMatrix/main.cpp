@@ -95,5 +95,8 @@ int main() {
     Cmatrix<double> d = product(t, r);
     cout << d << endl;
 
+    Cmatrix<double> z = d.toDouble();
+    cout << z << endl;
+
 	  return 0;
 }

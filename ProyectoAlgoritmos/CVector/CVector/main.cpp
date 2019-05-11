@@ -13,7 +13,7 @@ int main(){
     Cvector<double> r;
     r = p ^ 3.0;
     cout << p << endl;
-	cout << q << endl;
+	  cout << q << endl;
     cout << r << endl;
     Cvector<double> p1;
     Cvector<double> p2;
@@ -66,6 +66,20 @@ cout << "--------------------------------------------------------------------" <
 
     cout << p10 -p20 << endl;
 
+    Cvector<int> t;
+    t.push(10);
+    t.push(6);
+    t.push(4);
+    t.push(11);
+    cout << t << endl;
+    cout << t.toDouble() << endl;
+
+    Cvector<float> t2;
+    t2.push(15.4);
+    t2.push(6.8);
+    t2.push(10.5);
+    cout << t2 << endl;
+    cout << t2.toDouble() << endl;
 
     return 0;
 }
