@@ -78,7 +78,7 @@ public:
     double dot(Cvector w);  // FALTA LA QUE SOLO SE PUEDA PARA R3
     Cvector<numberType> cross(Cvector<numberType> w);
     double norm();
-    Cvector<numberType> normalize();
+    Cvector<double> normalize();
     void push(numberType value);
     void erase(size_t index);
     void insert (size_t index, numberType value);
@@ -87,6 +87,7 @@ public:
     size_t size() const;
     float angle (Cvector<numberType> &x);
     Cvector<numberType> proy(Cvector<numberType> &x);
+    Cvector<Cvector<double>>  gram_schmidt(const Cvector<numberType> &rhs);
 
     ///////////////////// to double precision
 

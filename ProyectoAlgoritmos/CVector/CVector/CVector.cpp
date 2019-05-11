@@ -235,7 +235,8 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
 // Operator *
 template <typename numberType>
 Cvector<numberType> operator * (const Cvector<numberType> &x, const numberType &y){
-    Cvector<numberType> result;
+    //cout << "ESTOY MULTIPLICANDO POR ESTE ESCALAR: " << y << endl;
+    Cvector<double> result;
     result.length = x.length;
     for (size_t i = 0; i < x.length; i++){
         result.array[i] = numberType (x.array[i] * y);
@@ -304,22 +305,21 @@ Cvector<numberType> Cvector<numberType>::cross(Cvector<numberType> arr){
 // Norm
 template <typename numberType>
 double Cvector<numberType>::norm(){
-    int num = 0;
+    double num = 0;
     for(size_t i = 0; i < this -> length; i++){
         num += pow(this -> array[i], 2);
     }
-    double out = sqrt(num);
+    double out = double(sqrt(num));
     return out;
 }
 
 // Normalize
 template <typename numberType>
-Cvector<numberType> Cvector<numberType>::normalize(){
-    int norm1 = this -> norm();
-    cout << norm1 << endl;
-    Cvector<numberType> out;
+Cvector<double> Cvector<numberType>::normalize(){
+    double norm1 = this -> norm();
+    Cvector<double> out;
     for(size_t i = 0; i < this -> length; i++){
-        out.push(this -> array[i] / norm1);
+        out.push(double(this -> array[i]) / norm1);
     }
     return out;
 }
@@ -390,6 +390,29 @@ Cvector<numberType> Cvector<numberType>::proy(Cvector<numberType> &x){
 }
 
 
+// Gram_schmidt
+template <typename numberType>
+Cvector<Cvector<double>> Cvector<numberType>::gram_schmidt(const Cvector<numberType> &rhs){
+  Cvector<Cvector<double>> result;
+  result.array[0] = rhs[0].normalize();
+  result.length = 1;
+  Cvector<double> tmp;
+  cout << rhs.length << endl;
+  for (size_t i = 1; i < rhs.length; i++){
+    tmp = rhs[i];
+    for (size_t j = 0; j < result.length; j++){
+        cout << "Este soy antes de hacerme cambios : " << tmp << endl;
+        tmp = tmp - (result[j] * (rhs[i].dot(result[j])));
+        //cout << i << "  : " << rhs[i] - (result[j] * double((rhs[i].dot(result[j])))) << endl;
+
+      }
+    cout << "Este soy antes de normalizarme : " << tmp << "  con esta norma : " << tmp.norm() <<  endl;
+    cout << "Este soy despues de normanizarme : " << tmp.normalize() << endl;
+    result.array[i] = tmp.normalize();
+    result.length ++;
+    }
+  return result;
+}
 //--------------------------------------Expand Capacity--------------------------------------------
 
 template <typename numberType>
@@ -403,6 +426,7 @@ void Cvector<numberType>::expandCapacity(){
     delete[] Oldarray;
 
 }
+
 
 // ---------------------------------------To double precision -------------------------------------
 
