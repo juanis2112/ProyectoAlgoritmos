@@ -26,9 +26,10 @@ template <typename numberType> Cvector<bool>  operator >= (const Cvector<numberT
 template <typename numberType> Cvector<bool>  operator <= (const Cvector<numberType> &x , const Cvector<numberType> &y);
 template <typename numberType> Cvector<numberType>  operator + (const Cvector<numberType> & x, const Cvector<numberType> & y);
 template <typename numberType> Cvector<numberType>  operator - (const Cvector<numberType> & x, const Cvector<numberType> & y);
-template <typename numberType> Cvector<numberType>  operator * (const Cvector<numberType> &x, const numberType &y);
-template <typename numberType> Cvector<numberType>  operator / (const Cvector<numberType> &x, const numberType &y);
-template <typename numberType> Cvector<numberType>  operator ^ (const Cvector<numberType> &x, const numberType y);
+template <typename numberType> Cvector<double>  operator * (const Cvector<numberType> &x, const numberType &y);
+template <typename numberType> Cvector<double>  operator * (const numberType &y, const Cvector<numberType> &x);
+template <typename numberType> Cvector<double>  operator / (const Cvector<numberType> &x, const numberType &y);
+template <typename numberType> Cvector<double>  operator ^ (const Cvector<numberType> &x, const int y);
 template <typename numberType> ostream & operator << (ostream &os, const Cvector<numberType> &rhs);
 
 
@@ -69,14 +70,15 @@ public:
     // Binary operators
     friend Cvector<numberType>  operator + <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
     friend Cvector<numberType>  operator - <>(const Cvector<numberType> & x, const Cvector<numberType> & y);
-    friend Cvector<numberType>  operator * <>(const Cvector<numberType> &x, const numberType &y);
-    friend Cvector<numberType>  operator / <>(const Cvector<numberType> &x, const numberType &y);
-    friend Cvector<numberType>  operator ^ <>(const Cvector<numberType> &x, const numberType y);
+    friend Cvector<double>  operator * <>(const Cvector<numberType> &x, const numberType &y);
+    friend Cvector<double>  operator * <>(const numberType &y, const Cvector<numberType> &x);
+    friend Cvector<double>  operator / <>(const Cvector<numberType> &x, const numberType &y);
+    friend Cvector<double>  operator ^ <>(const Cvector<numberType> &x, const int y);
 
 //------------------------------------------CLASS METHODS------------------------------------------------------
 
     double dot(Cvector w);  // FALTA LA QUE SOLO SE PUEDA PARA R3
-    Cvector<numberType> cross(Cvector<numberType> w);
+    Cvector<double> cross(Cvector<numberType> w);
     double norm();
     Cvector<double> normalize();
     void push(numberType value);
@@ -85,13 +87,13 @@ public:
     void clear();
     bool empty() const;
     size_t size() const;
-    float angle (Cvector<numberType> &x);
-    Cvector<numberType> proy(Cvector<numberType> &x);
+    double angle (Cvector<numberType> &x);
+    Cvector<double> proy(Cvector<numberType> &x);
     Cvector<Cvector<double>>  gram_schmidt(const Cvector<numberType> &rhs);
 
     ///////////////////// to double precision
 
-    Cvector<double> toDouble();
+    Cvector<double> toDouble()const;
 
     ///////////////////////////////
 
