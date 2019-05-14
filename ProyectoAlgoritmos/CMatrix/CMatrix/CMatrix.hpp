@@ -115,11 +115,22 @@ class Cmatrix{
     void swap_c(size_t col1, size_t col2);
     Cmatrix<numberType> abs();
     Cmatrix<numberType> permutationMatrix(Cvector<numberType> v);
-    
+  
     
     tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
     double determinant();
     Cmatrix<numberType> inverse();
+
+
+
+
+    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
+    double determinant();
+  
+
+    ///////////////////// to double precision
+
+    Cmatrix<double> toDouble();
 
 
 

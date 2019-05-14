@@ -662,6 +662,7 @@ tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<num
             }
         }
         assert(maxPivot > Tol); // Matrix is degenerate
+        //if (maxPivot < Tol) return 0; //failure, matrix is degenerate
         if (indexMax != i) {
             //Finding Pivots
             j = P[i];
@@ -743,10 +744,8 @@ Cmatrix<numberType> Cmatrix<numberType>::inverse(){
 }
 
         
-        
-
+   
 // QR Decomposition
-
 
 
 //--------------------------------------Expand Capacity--------------------------------------------

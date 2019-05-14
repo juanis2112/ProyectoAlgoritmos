@@ -49,6 +49,9 @@ int main() {
     double det = r.determinant();
     cout<<det;
 
+    double det = r.determinant();
+    cout<<det;
+
 //    Cmatrix<double> m;
      Cmatrix<double> n;
 //    Cmatrix<double> o;
