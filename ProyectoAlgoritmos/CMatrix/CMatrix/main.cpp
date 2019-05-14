@@ -34,15 +34,26 @@ int main() {
     r.array[2][2] = -2;
     cout<<r<<endl;
     tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> c = r.LUP(0.001);
+    Cmatrix<double> L;
+    L = get<1>(c);
+    Cmatrix<double> U;
+    U = get<2>(c);
     cout<<"P:"<<get<0>(c)<<endl;
     cout<<"L:"<<get<1>(c)<<endl;
     cout<<"U:"<<get<2>(c)<<endl;
+    
+    Cmatrix<double> rinv;
+    rinv = r.inverse();
+    cout<<"This is the inverse of A"<<rinv;
+    
     double det = r.determinant();
     cout<<det;
 
+    double det = r.determinant();
+    cout<<det;
 
 //    Cmatrix<double> m;
-//    Cmatrix<double> n;
+     Cmatrix<double> n;
 //    Cmatrix<double> o;
 //    Cmatrix<double> ra;
 //    cout<<"Esto es un vector"<<r[1]<<endl;
@@ -56,7 +67,7 @@ int main() {
 //    m = Cmatrix<double>::eye(8);
 //    cout<<m<<endl;
 //
-//    n = Cmatrix<double>::zeros(8,3);
+     n = Cmatrix<double>::zeros(8,3);
 //    cout<<n<<endl;
 //
 //    o = Cmatrix<double>::ones(8,3);

@@ -1,0 +1,167 @@
+diff --cc ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.cpp
+index 29c6fd3,c4703ab..0000000
+--- a/ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.cpp
++++ b/ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.cpp
+@@@ -637,13 -615,14 +638,13 @@@ Cmatrix<numberType> Cmatrix<numberType>
+  // LUP
+  template <typename numberType>
+  tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::LUP(double Tol) {
+-     
+ -
+ +    assert(nRows==nCols);
+      Cmatrix<numberType> A(*this);
+      size_t j, k, indexMax;
+      double maxPivot, absA;
+      Cmatrix<double> L;
+      Cmatrix<double> U;
+ -
++     //assert(A.numberRows()!=A.numberCols());
+      size_t N = A.numberRows();
+      Cvector<double> P;
+      for (size_t i = 0; i <= N; i++)
+@@@ -660,9 -639,9 +661,7 @@@
+                  indexMax = k;
+              }
+          }
+-         
+ -
+ -        //if (maxPivot < Tol) return 0; //failure, matrix is degenerate
+ -
+ +        assert(maxPivot > Tol); // Matrix is degenerate
+-         
+          if (indexMax != i) {
+              //Finding Pivots
+              j = P[i];
+@@@ -710,48 -689,6 +709,46 @@@ double Cmatrix<numberType>::determinant
+  
+  }
+  
+ +// Inverse
+ +template <typename numberType>
+ +Cmatrix<numberType> Cmatrix<numberType>::inverse(){
+ +    Cmatrix<numberType> A(*this);
+ +    Cmatrix<double> Ainv, Linv, Uinv, Pinv;
+ +    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> lup = A.LUP(0.0001);
+ +    Cvector<double> P = get<0>(lup);
+ +    Cmatrix<double> L = get<1>(lup);
+ +    Cmatrix<double> U = get<2>(lup);
+ +    size_t N = nCols;
+ +    Linv = Cmatrix<double>::zeros(N,N);
+ +    Uinv = Cmatrix<double>::zeros(N,N);
+ +    Ainv = Cmatrix<double>::zeros(N,N);
+ +    Pinv = permutationMatrix(P);
+ +    // Inverse of L
+ +    for(int k=0; k<N; k++){
+ +        Linv(k,k) = 1/L(k,k);
+ +        for(int i=k+1; i<N; i++){
+ +            Linv(i,k) = (-L[i].dot((Linv.transpose())[k]))/L(i,i);
+ +        }
+ +    }
+ +    // Inverse of U
+ +    for(long k=N-1; k>=0; --k){
+ +        size_t tmp = static_cast<unsigned>(k);
+ +        Uinv(tmp,tmp) = 1/U(tmp,tmp);
+ +        for(long i=tmp-1; i>=0; i--){
+ +            Uinv(i,k) = (-U[i].dot((Uinv.transpose())[k]))/U(i,i);
+ +        }
+ +    }
+ +    Ainv = Uinv*Linv*Pinv;
+ +    return Ainv;
+ +}
+ +
+ +        
+ +        
+ +
+ +// QR Decomposition
+ +
+ +
+ +
+- 
+- 
+  //--------------------------------------Expand Capacity--------------------------------------------
+  
+  template <typename numberType>
+diff --cc ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.hpp
+index c951a80,1062e0d..0000000
+--- a/ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.hpp
++++ b/ProyectoAlgoritmos/CMatrix/CMatrix/CMatrix.hpp
+@@@ -69,10 -68,8 +69,10 @@@ class Cmatrix
+          // Friend operators
+          numberType operator () (size_t row, size_t col) const;
+          numberType & operator () (size_t row, size_t col);
+ +        Cvector<numberType> operator [] (size_t idx) const;
+ +        Cvector<numberType> & operator [](size_t idx);
+          //Cvector<numberType> operator () (size_t idx, bool type);
+-     
++ 
+          friend Cmatrix<bool> operator == <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+          friend Cmatrix<bool> operator != <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+          friend Cmatrix<bool> operator > <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+@@@ -86,10 -83,9 +86,10 @@@
+          friend Cmatrix<numberType>  operator+ <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+          friend Cmatrix<numberType>  operator - <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+          friend Cmatrix<numberType> operator * <> (const Cmatrix<numberType> &x, const int &y);
+ +        friend Cmatrix<numberType> operator * <>(const Cmatrix<numberType> &x, Cmatrix<numberType> &y);
+          friend Cmatrix<numberType> operator / <> (const Cmatrix<numberType> &x, const int &y);
+  //        //friend Cmatrix<Cvector<numberType>>  operator^ <>(const Cmatrix<Cvector<numberType>> &x, const Cmatrix<Cvector<numberType>> &y);
+-     
++ 
+  
+      void push (const Cvector<numberType> &value);
+      void erase(size_t index);
+@@@ -114,13 -110,18 +114,25 @@@
+      void swap_r(size_t row1, size_t row2);
+      void swap_c(size_t col1, size_t col2);
+      Cmatrix<numberType> abs();
+ +    Cmatrix<numberType> permutationMatrix(Cvector<numberType> v);
+ +    
+ +    
+ +    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
+ +    double determinant();
+ +    Cmatrix<numberType> inverse();
+ +
++ 
++ 
++ 
++     tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
++     double determinant();
++   
++ 
++     ///////////////////// to double precision
++ 
++     Cmatrix<double> toDouble();
++ 
++     ///////////////////////////////
+  	public:
+  		Cvector<numberType> * array;
+  		size_t capacity, nRows, nCols;
+diff --cc ProyectoAlgoritmos/CMatrix/CMatrix/main.cpp
+index faae009,a89e87c..0000000
+--- a/ProyectoAlgoritmos/CMatrix/CMatrix/main.cpp
++++ b/ProyectoAlgoritmos/CMatrix/CMatrix/main.cpp
+@@@ -40,14 -37,12 +41,16 @@@ int main() 
+      cout<<"P:"<<get<0>(c)<<endl;
+      cout<<"L:"<<get<1>(c)<<endl;
+      cout<<"U:"<<get<2>(c)<<endl;
+ +    
+ +    Cmatrix<double> rinv;
+ +    rinv = r.inverse();
+ +    cout<<"This is the inverse of A"<<rinv;
+ +    
+-     
++     double det = r.determinant();
++     cout<<det;
++ 
+ -
+  //    Cmatrix<double> m;
+ -//    Cmatrix<double> n;
+ +     Cmatrix<double> n;
+  //    Cmatrix<double> o;
+  //    Cmatrix<double> ra;
+  //    cout<<"Esto es un vector"<<r[1]<<endl;
+diff --git a/ProyectoAlgoritmos/CMatrix/CMatrix.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate b/ProyectoAlgoritmos/CMatrix/CMatrix.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate
+index 4b594a2..dc56767 100644
+Binary files a/ProyectoAlgoritmos/CMatrix/CMatrix.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate and b/ProyectoAlgoritmos/CMatrix/CMatrix.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate differ
+diff --git a/ProyectoAlgoritmos/CVector/ProyectoAlgoritmos.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate b/ProyectoAlgoritmos/CVector/ProyectoAlgoritmos.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate
+index 4be6ff7..36d413a 100644
+Binary files a/ProyectoAlgoritmos/CVector/ProyectoAlgoritmos.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate and b/ProyectoAlgoritmos/CVector/ProyectoAlgoritmos.xcodeproj/project.xcworkspace/xcuserdata/juanis.xcuserdatad/UserInterfaceState.xcuserstate differ

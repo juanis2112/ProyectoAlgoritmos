@@ -34,7 +34,6 @@ Cmatrix<numberType>::Cmatrix(const Cmatrix<numberType> &x){
 template <typename numberType>
 Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x, bool axis){
 
-    //PREGUNTAR POR QUE TENGO QUE METER EL TMP Y TAMBIEN POR QUE TENGO QUE INICIALIZAR b!!!!!!!
     if (axis == false){
         capacity = size + Initial_Capacity;
         array = new Cvector<numberType> [capacity];
@@ -331,6 +330,18 @@ Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType
     return result;
 }
 
+// Operator []
+template <typename numberType>
+Cvector<numberType> Cmatrix<numberType>::operator [] (size_t idx) const {
+    return array[idx];
+}
+
+// Operator []
+template <typename numberType>
+Cvector<numberType> & Cmatrix<numberType>::operator [](size_t idx){
+    return array[idx];
+}
+
 //// Operator * Matrix - Vector Multiplication
 
 //template <typename numberType>
@@ -612,16 +623,27 @@ Cmatrix<numberType> Cmatrix<numberType>::random(size_t rows, size_t cols) {
     return t;
 }
 
+// Permutation Matrix
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::permutationMatrix(Cvector<numberType> v) {
+    Cmatrix<numberType> p;
+    p= Cmatrix<numberType>::zeros(v.size()-1, v.size()-1);
+    for (int i = 0; i < v.size(); i++) {
+        p[i][v[i]] = 1;
+    }
+    return p;
+}
+
+
 // LUP
 template <typename numberType>
 tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::LUP(double Tol) {
-
+    assert(nRows==nCols);
     Cmatrix<numberType> A(*this);
     size_t j, k, indexMax;
     double maxPivot, absA;
     Cmatrix<double> L;
     Cmatrix<double> U;
-
     //assert(A.numberRows()!=A.numberCols());
     size_t N = A.numberRows();
     Cvector<double> P;
@@ -639,9 +661,8 @@ tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<num
                 indexMax = k;
             }
         }
-
+        assert(maxPivot > Tol); // Matrix is degenerate
         //if (maxPivot < Tol) return 0; //failure, matrix is degenerate
-
         if (indexMax != i) {
             //Finding Pivots
             j = P[i];
@@ -688,6 +709,44 @@ double Cmatrix<numberType>::determinant(){
     return detA;
 
 }
+
+// Inverse
+template <typename numberType>
+Cmatrix<numberType> Cmatrix<numberType>::inverse(){
+    Cmatrix<numberType> A(*this);
+    Cmatrix<double> Ainv, Linv, Uinv, Pinv;
+    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> lup = A.LUP(0.0001);
+    Cvector<double> P = get<0>(lup);
+    Cmatrix<double> L = get<1>(lup);
+    Cmatrix<double> U = get<2>(lup);
+    size_t N = nCols;
+    Linv = Cmatrix<double>::zeros(N,N);
+    Uinv = Cmatrix<double>::zeros(N,N);
+    Ainv = Cmatrix<double>::zeros(N,N);
+    Pinv = permutationMatrix(P);
+    // Inverse of L
+    for(int k=0; k<N; k++){
+        Linv(k,k) = 1/L(k,k);
+        for(int i=k+1; i<N; i++){
+            Linv(i,k) = (-L[i].dot((Linv.transpose())[k]))/L(i,i);
+        }
+    }
+    // Inverse of U
+    for(long k=N-1; k>=0; --k){
+        size_t tmp = static_cast<unsigned>(k);
+        Uinv(tmp,tmp) = 1/U(tmp,tmp);
+        for(long i=tmp-1; i>=0; i--){
+            Uinv(i,k) = (-U[i].dot((Uinv.transpose())[k]))/U(i,i);
+        }
+    }
+    Ainv = Uinv*Linv*Pinv;
+    return Ainv;
+}
+
+        
+   
+// QR Decomposition
+
 
 //--------------------------------------Expand Capacity--------------------------------------------
 
