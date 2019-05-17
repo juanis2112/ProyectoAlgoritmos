@@ -82,10 +82,9 @@ public:
     friend Cvector<double>  operator ^ <>(const Cvector<numberType> &x, const int y);
 
 //------------------------------------------CLASS METHODS--------------------------------------------------------
-
-    Cvector<double> toDouble()const;
     
     // Vector Methods
+    Cvector<double> toDouble()const;
     void push(numberType value);
     void erase(size_t index);
     void insert (size_t index, numberType value);
@@ -101,6 +100,7 @@ public:
     double angle (Cvector<numberType> &x);
     Cvector<double> proy(Cvector<numberType> &x);
     Cvector<Cvector<double>>  gram_schmidt();
+    
     
 //*********************************************  PRIVATE  *********************************************
 
