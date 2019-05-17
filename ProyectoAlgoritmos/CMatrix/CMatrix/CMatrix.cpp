@@ -799,34 +799,26 @@ Cvector<numberType> Cmatrix<numberType>::eigen_values(const int tol){
     return Cmatrix<numberType>::diagonal(A);
 }
 
-// Eigen Vectors
-
-
-
 // Singular Value Decomposition
 
-template <typename numberType>
-tuple<Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::SVD() {
-    Cmatrix<numberType> A(*this);
-    Cmatrix<numberType> P;
-    int min;
-    if(A.numberCols>A.numberRows) {
-        P = A*A.transpose();
-        min = A.numberCols;
-    else {
-        P= A.transpose()*A;
-        min = A.numberRows;
-        }
-    tuple<Cmatrix<numberType>, Cmatrix<numberType>> qr = A.QR();
-    Cmatrix<double> Q(get<0>(qr));
-    Cmatrix<double> R(get<1>(qr));
-    A = R*Q;
-    i = fabs(A(1,0));
-    
-    
-    
-
-}
+//template <typename numberType>
+//tuple<Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::SVD() {
+//    Cmatrix<numberType> A(*this);
+//    Cmatrix<numberType> P;
+//    int min;
+//    if(A.numberCols>A.numberRows) {
+//        P = A*A.transpose();
+//        min = A.numberCols;
+//    else {
+//        P= A.transpose()*A;
+//        min = A.numberRows;
+//        }
+//    tuple<Cmatrix<numberType>, Cmatrix<numberType>> qr = A.QR();
+//    Cmatrix<double> Q(get<0>(qr));
+//    Cmatrix<double> R(get<1>(qr));
+//    A = R*Q;
+//    i = fabs(A(1,0));
+//}
 
 
 //--------------------------------------Expand Capacity--------------------------------------------

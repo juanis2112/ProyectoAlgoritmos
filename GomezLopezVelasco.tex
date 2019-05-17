@@ -1,0 +1,102 @@
+\documentclass{article}
+% Uncomment the following line to allow the usage of graphics (.png, .jpg)
+%\usepackage[pdftex]{graphicx}
+% Allow the usage of utf8 characters
+\usepackage[utf8]{inputenc}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{vmargin}
+\usepackage{xcolor} 
+\def\code#1{\texttt{#1}}
+%--------------------------------------------------------------------------
+\title{Junior Lineal Algebra Library}
+\author{Juanita Gómez, Santiago Lopez, Oscar Velasco\\
+  \small Algoritmos y Estructuras de Datos\\
+  \small Universidad del Rosario\\
+}
+
+
+
+\begin{document}
+\maketitle
+
+\setmarginsrb{35mm}{20mm}{25mm}{15mm}{12pt}{11mm}{0pt}{11mm}
+
+% Start the document
+
+% Create a new 1st level heading
+
+\section{Resumen Ejecutivo}
+
+\subsection{Problema}
+En C++ resulta dificil representar y realizar operaciones entre objetos matematicos, tales como tensores n-dimensionales, vectores y matrices. Ádemas, es complejo encontrar estructuras que permitan almacenar diversos tipos de datos numeros. En general no es posible almacenar por ejemplo tipos de datos enteros y flotantes en un arreglo en C++.
+
+\subsection{Solución Propuesta}
+Se pretende implementar una clase de tensor en C++ en la que se puedan representar objetos matemáticos como vectores, matrices y tensores n-dimensionales con el fin de desarrollar algunos métodos para realizar operaciones entre estos, similares a las de la librería Numpy de Python. Estos objetos deberán ser capaces de almacenar datos de cualquier tipo numérico, incluyendo int, float, double, long, short..etc.
+
+\subsection{Resumen}
+Sea V un espacio vectorial real de dimension $n$, para cualquier entero $0 \leq k \leq n$, el Grasmaniano $G_k(V)$ se define como el conjunto de todos los subespacios vectoriales de V, de dimensión k. 
+\section{Funcionalidad}
+\section{Descripción}
+\subsection{Cvector}
+Cvector es una clase blablablab \\
+
+\subsubsection{\textbf{CONSTRUCTORES}}
+\begin{itemize}
+
+	\item \textbf{Empty}: No recibe ningún parametro y crea un objeto de tipo Cvector vacío con longitud 0 y capacidad igual a Initial Capacity.
+
+	\item \textbf{Fill}: Recibe un sizet Length y un numberType value y crea un objeto de tipo Cvector vacío con longitud length, capacidad igual a Initial Capacity y cada uno de sus elementos es igual a value.
+
+	\item \textbf{Size}: Recibe un sizet Length y crea un objeto de tipo Cvector con longitud Length, capacidad igual a Initial Capacity con elementos indeterminados.
+
+	\item \textbf{Parametric}: Recibe un Cvector rhs crea un objeto de tipo Cvector copiando la longitud, la capacidad y los elementos de rhs.
+
+\end{itemize}
+
+\subsubsection{\textbf{OPERADORES}}
+
+Sean v y w dos vectores de tipo Cvector, tenemos las siguientes funciones de los operadores.
+
+
+
+\subsubsection{\textbf{CLASS METHODS}}
+\textbf{Vector Methods}
+\begin{itemize}
+	\item \textcolor{blue}{\code{push(numberType value)}}: Recibe un numberType value y lo inserta al final del vector. No retorna nada.
+	\item \textcolor{blue}{\code{erase(sizet index)}}: Recibe un sizet index y borra el elemento del vector correspondiente a ese índice. No retorna nada.
+	\item \textcolor{blue}{\code{insert(sizet index, numberType value)}}: Recibe un sizet index y un numberType value y lo inserta en la posición del vector correspondiente a ese índice. No retorna nada.
+	\item \textcolor{blue}{\code{clear()}}: Recibe un numberType value y lo inserta al final del vector. No retorna nada.
+	\item \textcolor{blue}{\code{empty()}}: No recibe ningún parámetro y asigna 0 a la longitud del vector sin retornar nada.
+	\item \textcolor{blue}{\code{size()}}:  No recibe ningún parámetro y retorna un sizet correspondiente a la longitud del vector.
+\end{itemize}
+\textbf{Math Methods}
+\begin{itemize}
+	\item \textcolor{blue}{\code{dot(Cvector w)}}: Recibe un Cvector w y calcula el producto punto entre “this” y el Cvector w. Retorna un escalar de tipo doble.
+	\item \textcolor{blue}{\code{cross(Cvector w)}}: Recibe un Cvector w y calcula el producto cruz entre “this” y el Cvector w. Retorna un Cvector. 
+	\item \textcolor{blue}{\code{norm()}}: Calcula la norma del vector this y la retorna como doble.
+	\item \textcolor{blue}{\code{normalize()}}: Calcula la norma del vector this.
+	\item \textcolor{blue}{\code{angle(Cvector<numberType> x)}}: Calcula la norma del vector this.
+	\item \textcolor{blue}{\code{proy(Cvector<numberType> x)}}: Calcula la norma del vector this.
+	\item \textcolor{blue}{\code{gramschmidt()}}: Calcula la norma del vector this.
+\end{itemize}
+\textbf{Private Methods}
+\begin{itemize}
+    \item \textcolor{blue}{\code{expandCapacity()}}
+    \item \textcolor{blue}{\code{Checkrep()}}
+
+\end{itemize}
+
+\subsection{Cmatrix}
+
+
+
+    
+\begin{thebibliography}{a}
+\bibitem{pradery} \textsc{Baralic, D.},
+\textit{The teaching of Mathematics: How to understand Grassmanians}
+http://elib.mi.sanu.ac.rs/files/journals/tm/27/tm1428.pdf, 2011  
+\end{thebibliography}
+
+\end{document}

@@ -6,7 +6,7 @@
 
 #ifdef CVector_hpp
 
-//------------------------------------- CONSTRUCTOR -----------------------------------------
+//-------------------------------CONSTRUCTORS AND DESTRUCTOR------------------------------------------------------
 
 // Empty Constructor
 template <typename numberType>
@@ -15,7 +15,16 @@ Cvector<numberType>::Cvector(){
     array = new numberType[capacity];
     length = 0;
     Checkrep();
-    
+}
+
+// Fill Constructor
+template <typename numberType>
+Cvector<numberType>::Cvector(size_t size, numberType value){
+    capacity = Initial_Capacity;
+    array = new numberType [capacity];
+    length = size;
+    for (size_t i = 0; i < length; i++) array[i] = value;
+    Checkrep();
 }
 
 // Parametric Constructor
@@ -41,19 +50,6 @@ Cvector<numberType>::Cvector(size_t Length){
     Checkrep();
 }
 
-// Fill Constructor
-template <typename numberType>
-Cvector<numberType>::Cvector(size_t size, numberType value){
-    capacity = Initial_Capacity;
-    array = new numberType [capacity];
-    length = size;
-    for (size_t i = 0; i < length; i++) array[i] = value;
-    Checkrep();
-    
-}
-
-//------------------------------------- DESTRUCTOR -----------------------------------------
-
 // Destructor
 template <typename numberType>
 Cvector<numberType>::~Cvector(){
@@ -65,7 +61,8 @@ Cvector<numberType>::~Cvector(){
 
 //------------------------------------- OPERATORS ------------------------------------------
 
-//-----------------------------------Non_friend operators ----------------------------------
+// Class member operators
+
 // Operator =
 template <typename numberType>
 Cvector<numberType> Cvector<numberType>::operator=(const Cvector &rhs){
@@ -98,19 +95,6 @@ numberType & Cvector<numberType>::operator [](size_t idx){
     return array[idx];
 }
 //-------------------------------------Friend operators ------------------------------------------
-//// Comparisson Operators
-
-
-// Operator <<
-template <typename numberType>
-ostream & operator<<(ostream &os, const Cvector<numberType> &rhs) {
-    rhs.Checkrep();
-    os << "[ ";
-    for (size_t i = 0; i < rhs.length; i++) cout << rhs.array[i] << " ";
-    os << "]" << endl;
-    rhs.Checkrep();
-    return os;
-}
 
 // Operator ==
 template <typename numberType>
@@ -127,6 +111,7 @@ Cvector<bool> operator == (const Cvector<numberType> &x , const Cvector<numberTy
     y.Checkrep();
     return result;
 }
+
 // Operator !=
 template <typename numberType>
 Cvector<bool> operator != (const Cvector<numberType> &x , const Cvector<numberType> &y){
@@ -137,6 +122,54 @@ Cvector<bool> operator != (const Cvector<numberType> &x , const Cvector<numberTy
     Cvector<bool> result(x.size());
     for (size_t i = 0; i < x.length; i++){
         result[i] = (x.array[i] != y.array[i]);
+    }
+    x.Checkrep();
+    y.Checkrep();
+    return result;
+}
+
+// Operator >
+template <typename numberType>
+Cvector<bool> operator > (const Cvector<numberType> &x , const Cvector<numberType> &y){
+    x.Checkrep();
+    y.Checkrep();
+    assert(is_arithmetic<numberType>::value);
+    assert(x.length == y.length);
+    Cvector<bool> result(x.size());
+    for (size_t i = 0; i < x.length; i++){
+        result[i] = (x.array[i] > y.array[i]);
+    }
+    x.Checkrep();
+    y.Checkrep();
+    return result;
+}
+
+// Operator <
+template <typename numberType>
+Cvector<bool> operator < (const Cvector<numberType> &x , const Cvector<numberType> &y){
+    x.Checkrep();
+    y.Checkrep();
+    assert(is_arithmetic<numberType>::value);
+    assert(x.length == y.length);
+    Cvector<bool> result(x.size());
+    for (size_t i = 0; i < x.length; i++){
+        result[i] = (x.array[i] < y.array[i]);
+    }
+    x.Checkrep();
+    y.Checkrep();
+    return result;
+}
+
+// Operator >=
+template <typename numberType>
+Cvector<bool> operator >= (const Cvector<numberType> &x , const Cvector<numberType> &y){
+    x.Checkrep();
+    y.Checkrep();
+    assert(is_arithmetic<numberType>::value);
+    assert(x.length == y.length);
+    Cvector<bool> result(x.size());
+    for (size_t i = 0; i < x.length; i++){
+        result[i] = (x.array[i] >= y.array[i]);
     }
     x.Checkrep();
     y.Checkrep();
@@ -160,56 +193,18 @@ Cvector<bool> operator <= (const Cvector<numberType> &x , const Cvector<numberTy
     
 }
 
-// Operator >=
+// Operator <<
 template <typename numberType>
-Cvector<bool> operator >= (const Cvector<numberType> &x , const Cvector<numberType> &y){
-    x.Checkrep();
-    y.Checkrep();
-    assert(is_arithmetic<numberType>::value);
-    assert(x.length == y.length);
-    Cvector<bool> result(x.size());
-    for (size_t i = 0; i < x.length; i++){
-        result[i] = (x.array[i] >= y.array[i]);
-    }
-    x.Checkrep();
-    y.Checkrep();
-    return result;
+ostream & operator<<(ostream &os, const Cvector<numberType> &rhs) {
+    rhs.Checkrep();
+    os << "[ ";
+    for (size_t i = 0; i < rhs.length; i++) cout << rhs.array[i] << " ";
+    os << "]" << endl;
+    rhs.Checkrep();
+    return os;
 }
 
-// Operator <
-template <typename numberType>
-Cvector<bool> operator < (const Cvector<numberType> &x , const Cvector<numberType> &y){
-    x.Checkrep();
-    y.Checkrep();
-    assert(is_arithmetic<numberType>::value);
-    assert(x.length == y.length);
-    Cvector<bool> result(x.size());
-    for (size_t i = 0; i < x.length; i++){
-        result[i] = (x.array[i] < y.array[i]);
-    }
-    x.Checkrep();
-    y.Checkrep();
-    return result;
-}
-
-
-// Operator >
-template <typename numberType>
-Cvector<bool> operator > (const Cvector<numberType> &x , const Cvector<numberType> &y){
-    x.Checkrep();
-    y.Checkrep();
-    assert(is_arithmetic<numberType>::value);
-    assert(x.length == y.length);
-    Cvector<bool> result(x.size());
-    for (size_t i = 0; i < x.length; i++){
-        result[i] = (x.array[i] > y.array[i]);
-    }
-    x.Checkrep();
-    y.Checkrep();
-    return result;
-}
-
-////Binary operators
+//-------------------------------------Binary operators ------------------------------------------
 
 // Operator +
 template <typename numberType>
@@ -243,7 +238,7 @@ Cvector<numberType> operator - (const Cvector<numberType> &x, const Cvector<numb
     return result;
 }
 
-// Operator *
+// Operator * (Vector - Escalar multiplication)
 template <typename numberType>
 Cvector<double> operator * (const Cvector<numberType> &x, const numberType &y){
     x.Checkrep();
@@ -259,7 +254,23 @@ Cvector<double> operator * (const Cvector<numberType> &x, const numberType &y){
     return result;
 }
 
-// Operator *
+// Operator * (Escalar - Vector multiplication)
+template <typename numberType>
+Cvector<double> operator * (const numberType &y, const Cvector<numberType> &x){
+    x.Checkrep();
+    assert(!(is_same<numberType, char>::value));
+    assert(is_arithmetic<numberType>::value);
+    Cvector<double> copia;
+    copia = x.toDouble();
+    Cvector<double> result;
+    for (size_t i = 0; i < copia.length; i++){
+        result.push(copia.array[i] * double(y));
+    }
+    x.Checkrep();
+    return result;
+}
+
+// Operator * (Vector Multiplication Elementwise)
 template <typename numberType>
 Cvector<double> operator * (const Cvector<numberType> &x, const Cvector<numberType> &y){
     x.Checkrep();
@@ -277,22 +288,6 @@ Cvector<double> operator * (const Cvector<numberType> &x, const Cvector<numberTy
     }
     x.Checkrep();
     y.Checkrep();
-    return result;
-}
-
-// Operator *
-template <typename numberType>
-Cvector<double> operator * (const numberType &y, const Cvector<numberType> &x){
-    x.Checkrep();
-    assert(!(is_same<numberType, char>::value));
-    assert(is_arithmetic<numberType>::value);
-    Cvector<double> copia;
-    copia = x.toDouble();
-    Cvector<double> result;
-    for (size_t i = 0; i < copia.length; i++){
-        result.push(copia.array[i] * double(y));
-    }
-    x.Checkrep();
     return result;
 }
 
@@ -329,7 +324,64 @@ Cvector<double> operator ^ (const Cvector<numberType> &x, const int y){
     return result;
 }
 
-//---------------------------------------Class Methods------------------------------------------
+//------------------------------------------CLASS METHODS--------------------------------------------------------
+
+//-------------------------------------Vector Methods ------------------------------------------
+
+// Push
+template <typename numberType>
+void Cvector<numberType>::push(numberType value){
+    Checkrep();
+    if(length == capacity){
+        expandCapacity();
+    }
+    array[length++] = value;
+    Checkrep();
+}
+
+// Erase
+template <typename numberType>
+void Cvector<numberType>::erase(size_t index){
+    Checkrep();
+    for (size_t i = index; i < length-1; i++) array[i] = array[i+1];
+    length --;
+    Checkrep();
+}
+
+// Insert
+template <typename numberType>
+void Cvector<numberType>::insert (size_t index, numberType value){
+    Checkrep();
+    if (length == capacity) expandCapacity();
+    for (size_t i = length; i > index; i--) array[i] = array[i-1];
+    array[index] = value;
+    length++;
+    Checkrep();
+}
+
+// Clear
+template <typename numberType>
+void Cvector<numberType>::clear(){
+    Checkrep();
+    length = 0;
+    Checkrep();
+}
+
+// Empty
+template <typename numberType>
+bool Cvector<numberType>::empty() const{
+    Checkrep();
+    return (length == 0);
+}
+
+// Size
+template <typename numberType>
+size_t Cvector<numberType>::size() const{
+    Checkrep();
+    return length;
+}
+
+//-------------------------------------Vector Methods ------------------------------------------
 
 // Dot Product
 template <typename numberType>
@@ -348,7 +400,6 @@ double Cvector<numberType>::dot(Cvector<numberType> arr){
     if(size1 != size2){
         return -1;
     }
-
     double out = 0;
     for(size_t i = 0; i < size1; i++){
         out += copia1[i] * copia[i];
@@ -414,62 +465,6 @@ Cvector<double> Cvector<numberType>::normalize(){
     return out;
 }
 
-// Push
-template <typename numberType>
-void Cvector<numberType>::push(numberType value){
-    Checkrep();
-    if(length == capacity){
-        expandCapacity();
-    }
-    array[length++] = value;
-    Checkrep();
-}
-
-// Erase
-template <typename numberType>
-void Cvector<numberType>::erase(size_t index){
-    Checkrep();
-    for (size_t i = index; i < length-1; i++) array[i] = array[i+1];
-    length --;
-    Checkrep();
-}
-
-// Insert
-template <typename numberType>
-void Cvector<numberType>::insert (size_t index, numberType value){
-    Checkrep();
-    if (length == capacity) expandCapacity();
-    for (size_t i = length; i > index; i--) array[i] = array[i-1];
-    array[index] = value;
-    length++;
-    Checkrep();
-    
-}
-
-// Clear
-template <typename numberType>
-void Cvector<numberType>::clear(){
-    Checkrep();
-    length = 0;
-    Checkrep();
-    
-}
-
-// Empty
-template <typename numberType>
-bool Cvector<numberType>::empty() const{
-    Checkrep();
-    return (length == 0);
-}
-
-// Size
-template <typename numberType>
-size_t Cvector<numberType>::size() const{
-    Checkrep();
-    return length;
-}
-
-
 // Angle
 template <typename numberType>
 double Cvector<numberType>::angle(Cvector<numberType> &x){
@@ -511,15 +506,17 @@ Cvector<double> Cvector<numberType>::proy(Cvector<numberType> &x){
     return result;
 }
 
-
-// Gram_schmidt
+// Gram Schmidt
 template <typename numberType>
 Cvector<Cvector<double>> Cvector<numberType>::gram_schmidt(){
     Checkrep();
+    size_t count = (*this)[0].size();
+    for (size_t i = 1; i < this->length; i++){
+        assert(count == (*this)[i].size());
+    }
     Cvector<Cvector<double>> copia;
-    Cvector<numberType> rhs(*this);
-    for (size_t i = 0; i < rhs.length; i++){
-        copia.push(rhs.array[i].toDouble());
+    for (size_t i = 0; i < this -> length; i++){
+        copia.push(((*this)[i]).toDouble());
     }
     Cvector<Cvector<double>> result;
     result.push(copia[0].normalize());
@@ -534,8 +531,24 @@ Cvector<Cvector<double>> Cvector<numberType>::gram_schmidt(){
     Checkrep();
     return result;
 }
-//--------------------------------------Expand Capacity--------------------------------------------
 
+//*********************************************  PRIVATE  *********************************************
+
+// To Double precision
+template <typename numberType>
+Cvector<double> Cvector<numberType>::toDouble() const{
+    Checkrep();
+    assert(!(is_same<numberType, char>::value));
+    assert(is_arithmetic<numberType>::value);
+    Cvector<double> aux;
+    for(size_t i = 0; i < this -> size(); i++){
+        aux.push(double(array[i]));
+    }
+    Checkrep();
+    return aux;
+}
+
+//Expand Capacity
 template <typename numberType>
 void Cvector<numberType>::expandCapacity(){
     Checkrep();
@@ -549,29 +562,11 @@ void Cvector<numberType>::expandCapacity(){
     Checkrep();
 }
 
-
-// --------------------------------------- To double precision -------------------------------------
-
-template <typename numberType>
-Cvector<double> Cvector<numberType>::toDouble() const{
-    Checkrep();
-    assert(!(is_same<numberType, char>::value));
-    assert(is_arithmetic<numberType>::value);
-    Cvector<double> aux;
-    for(size_t i = 0; i < this -> size(); i++){
-        aux.push(double(array[i]));
-    }
-    
-    return aux;
-}
-
+// Check Representation Invariant
 template <typename numberType>
 void Cvector<numberType>::Checkrep() const{
     assert(length >= 0);
     assert(length <= capacity);
 }
-
-
-///////////////////////////////////////////////////////////////
 
 #endif //CVector_hpp
