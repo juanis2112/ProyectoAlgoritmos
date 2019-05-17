@@ -634,6 +634,17 @@ Cmatrix<numberType> Cmatrix<numberType>::permutationMatrix(Cvector<numberType> v
     return p;
 }
 
+// Vector from diagonal
+template <typename numberType>
+Cvector<numberType> Cmatrix<numberType>::diagonal(Cmatrix<numberType> m) {
+    assert(m.numberRows() == m.numberCols());
+    Cvector<numberType> v;
+    for (int i = 0; i < m.numberRows(); i++) {
+        v.push(m(i,i));
+    }
+    return v;
+}
+
 
 // LUP
 template <typename numberType>
@@ -746,6 +757,76 @@ Cmatrix<numberType> Cmatrix<numberType>::inverse(){
         
    
 // QR Decomposition
+template <typename numberType>
+tuple<Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::QR() {
+    assert(nRows==nCols);
+    tuple<Cvector<numberType>, Cmatrix<numberType>> QR;
+    Cmatrix<numberType> A(*this);
+    Cvector<Cvector<numberType>> cols;
+    for(int i=0; i<nCols; i++)
+        cols.push(A.transpose()[i]);
+    Cvector<Cvector<numberType>> Qcols;
+    Qcols=cols.gram_schmidt();
+    // Q
+    Cmatrix<double> Q;
+    for(int i=0; i<nCols; i++)
+        Q.push(Qcols[i]);
+    Q = Q.transpose();
+    
+    // R
+    Cmatrix<double> R(nRows, nCols, false);
+    for (size_t i = 0; i < numberRows(); i++) {
+        for (size_t j = 0; j < numberCols(); j++) {
+            R(i,j) = ( i <= j ?  Qcols[i].dot(cols[j]): 0 );
+        }
+    }
+    return make_tuple(Q, R);
+    
+}
+
+// EigenValues
+template <typename numberType>
+Cvector<numberType> Cmatrix<numberType>::eigen_values(const int tol){
+    Cmatrix<numberType> A(*this);
+    double i= 1;
+    while(i>tol){
+        tuple<Cmatrix<numberType>, Cmatrix<numberType>> qr = A.QR();
+        Cmatrix<double> Q(get<0>(qr));
+        Cmatrix<double> R(get<1>(qr));
+        A = R*Q;
+        i = fabs(A(1,0));
+    }
+    return Cmatrix<numberType>::diagonal(A);
+}
+
+// Eigen Vectors
+
+
+
+// Singular Value Decomposition
+
+template <typename numberType>
+tuple<Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::SVD() {
+    Cmatrix<numberType> A(*this);
+    Cmatrix<numberType> P;
+    int min;
+    if(A.numberCols>A.numberRows) {
+        P = A*A.transpose();
+        min = A.numberCols;
+    else {
+        P= A.transpose()*A;
+        min = A.numberRows;
+        }
+    tuple<Cmatrix<numberType>, Cmatrix<numberType>> qr = A.QR();
+    Cmatrix<double> Q(get<0>(qr));
+    Cmatrix<double> R(get<1>(qr));
+    A = R*Q;
+    i = fabs(A(1,0));
+    
+    
+    
+
+}
 
 
 //--------------------------------------Expand Capacity--------------------------------------------
@@ -774,84 +855,5 @@ Cmatrix<double> Cmatrix<numberType>:: toDouble(){
     return *this;
 }
 
-//--------------------------------------Matrix Product--------------------------------------------
-
-template <typename numberType>
-Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y){
-
-    unsigned fX = x.nRows;
-    unsigned cX = x.nCols;
-
-    unsigned fY = y.nRows;
-    unsigned cY = y.nCols;
-
-    Cmatrix<numberType> Mout;
-
-    cout << "Las matrices a multiplicar son: " << endl;
-    cout << "Matriz 1: " << fX << " x " << cX << endl;
-    cout << endl;
-    cout << x << endl;
-
-    cout << "Matriz 2: " << fY << " x " << cY << endl;
-    cout << endl;
-    cout << y << endl;
-
-    if(cX != fY){
-        cout << "No se puede realizar el producto entre matrices. " << endl;
-    }
-    else{
-
-        Cmatrix<numberType> aux = y.transpose();
-
-        Cmatrix<numberType> twoMatr;
-
-        for(unsigned i = 0; i < x.array -> size(); i++){
-            twoMatr.push(x.array[i]);
-        }
-
-        for(unsigned i = 0; i < y.array -> size(); i++){
-            twoMatr.push(aux.array[i]);
-        }
-        // cout << twoMatr << endl;
-
-        // twoMatr.transpose();
-
-        // cout << twoMatr << endl;
-
-        int n = 0;
-        // cout << Mout.array -> size() << endl;
-        // cout << x.array -> size() << endl;
-        // cout << y.array -> size() << endl;
-        numberType d;
-        while(Mout.nRows < x.nRows){
-            Cvector<numberType> out;
-            for(unsigned j = 0; j < aux.nRows; j++){
-                numberType cont = 0;
-                for(unsigned k = 0; k < twoMatr.array[0].size(); k++){
-                    d = twoMatr.array[n][k] * twoMatr.array[j + (x.array -> size())][k];
-                    cont += d;
-                }
-                out.push(cont);
-
-                // cout << cont << endl;
-                // cout << out << endl;
-            }
-            n++;
-            Mout.push(out);
-            // cout << Mout.array -> size() << endl;
-            // cout << Mout << endl;
-        }
-
-        // Mout = Mout.transpose();
-
-        cout << "El resultado es una matriz: " << fX << " x " << cY << endl;
-        cout << endl;
-    }
-
-    return Mout;
-}
-
-
-/////////////////////////////////////////////////////////////////
 
 #endif // CMatrix_hpp

@@ -33,27 +33,28 @@ int main() {
     r.array[0][1] = -3;
     r.array[2][2] = -2;
     cout<<r<<endl;
-    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> c = r.LUP(0.001);
-    Cmatrix<double> L;
-    L = get<1>(c);
-    Cmatrix<double> U;
-    U = get<2>(c);
-    cout<<"P:"<<get<0>(c)<<endl;
-    cout<<"L:"<<get<1>(c)<<endl;
-    cout<<"U:"<<get<2>(c)<<endl;
+    r.QR();
+    Cvector<double> e(r.eigen_values(0.00000000000000000001));
+    cout<<e;
     
-    Cmatrix<double> rinv;
-    rinv = r.inverse();
-    cout<<"This is the inverse of A"<<rinv;
+//    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> c = r.LUP(0.001);
+//    Cmatrix<double> L;
+//    L = get<1>(c);
+//    Cmatrix<double> U;
+//    U = get<2>(c);
+//    cout<<"P:"<<get<0>(c)<<endl;
+//    cout<<"L:"<<get<1>(c)<<endl;
+//    cout<<"U:"<<get<2>(c)<<endl;
     
-    double det = r.determinant();
-    cout<<det;
-
-    double det = r.determinant();
-    cout<<det;
+ //   Cmatrix<double> rinv;
+   // rinv = r.inverse();
+  //  cout<<"This is the inverse of A"<<rinv;
+    
+ //   double det = r.determinant();
+//    cout<<det;
 
 //    Cmatrix<double> m;
-     Cmatrix<double> n;
+//     Cmatrix<double> n;
 //    Cmatrix<double> o;
 //    Cmatrix<double> ra;
 //    cout<<"Esto es un vector"<<r[1]<<endl;
@@ -67,7 +68,7 @@ int main() {
 //    m = Cmatrix<double>::eye(8);
 //    cout<<m<<endl;
 //
-     n = Cmatrix<double>::zeros(8,3);
+     //n = Cmatrix<double>::zeros(8,3);
 //    cout<<n<<endl;
 //
 //    o = Cmatrix<double>::ones(8,3);
@@ -75,39 +76,6 @@ int main() {
 //
 //    ra = Cmatrix<double>::random(8,3);
 //    cout<<ra<<endl;
-
-    cout << endl << endl;
-    // cout << r << endl;
-
-    cout << "//////////////////////////////////////////////////" << endl;
-    cout << endl;
-
-    Cmatrix<double> nr = r.transpose();
-    // cout << nr << endl;
-
-    Cmatrix<double> a = product(r, nr);
-    cout << a << endl;
-
-    //////////////////////////////////////////////////////////////
-
-    cout << "//////////////////////////////////////////////////" << endl;
-    cout << endl;
-
-    Cmatrix<double> t;
-    t.push(v);
-    // cout << t << endl;
-
-    Cmatrix<double> b = product(r, t);
-    cout << b << endl;
-
-    cout << "///////////////////////////////////////////////////" << endl;
-    cout << endl;
-
-    Cmatrix<double> d = product(t, r);
-    cout << d << endl;
-
-    Cmatrix<double> z = d.toDouble();
-    cout << z << endl;
 
 	  return 0;
 }

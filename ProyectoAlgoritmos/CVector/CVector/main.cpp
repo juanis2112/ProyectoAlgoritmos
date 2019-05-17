@@ -1,113 +1,363 @@
-// main.cpp
-
-// Santiago Lopez
-// Oscar Velasco
-// Juanita Gomez
-
-#include "CVector.hpp"
+# include<iostream>
+# include<vector>
 using namespace std;
-int main(){
-//    Cvector<double> p(3,100.0);
-//    Cvector<double> q(p);
-//    //for (int i = 0; i < 10 ; i++) q.insert(0,i);
-//    Cvector<double> r;
-//    r = p ^ 3.0;
-//    cout << p << endl;
-//      cout << q << endl;
-//    cout << r << endl;
-//    Cvector<double> p1;
-//    Cvector<double> p2;
-//    for (int i = 0; i < 5; i++){
-//        p1.insert(0,double(i));
-//        p2.insert(0,double(i+10));
-//    }
-//
-//
-//    cout << p1.angle(p2) << endl;
-//    cout << p1.proy(p2) << endl;
-//    cout << "p1: " << p1 << endl;
-//    cout << "p2 :" << p2 << endl;
-//    p2.erase(2);
-//    cout << "p2 :" << p2 << endl;
-//
-//
-//    Cvector<int> h;
-//    h.push(3);
-//    h.push(5);
-//    h.push(1);
-//    Cvector<Cvector<int>> temp;
-//    temp.push(h);
-//    h.clear();
-//    h.push(2);
-//    h.push(1);
-//    h.push(0);
-//    temp.push(h);
-//    h.clear();
-//    h.push(0);
-//    h.push(1);
-//    h.push(0);;
-//    temp.push(h);
-//    cout << temp << endl;
-//    Cvector<Cvector<double>> temp1;
-//    temp1 = temp.gram_schmidt(temp);
-//    cout << temp1 << endl;
-//
-//cout << "--------------------------------------------------------------------" << endl;
-//    Cvector<int> p10;
-//    p10.array[0] = 1;
-//    p10.array[1] = 10;
-//    p10.length = 2;
-//
-//
-//    Cvector<int> p20;
-//    p20.array[0] = 5;
-//    p20.array[1] = 10;
-//    p20.length = 2;
-//
-//    cout << p10 -p20 << endl;
-//
-//    Cvector<int> t;
-//    t.push(10);
-//    t.push(6);
-//    t.push(4);
-//    t.push(11);
-//    cout << t << endl;
-//    cout << t.toDouble() << endl;
-//
-//    Cvector<float> t2;
-//    t2.push(15.4);
-//    t2.push(6.8);
-//    t2.push(10.5);
-//    cout << t2 << endl;
-//    cout << t2.toDouble() << endl;
 
-    
-    
-    
-    Cvector<int> p;
-    p.push(1);
-    p.push(5);
-    p.push(3);
-    cout << "p : " << p << endl;
-    Cvector<int> q;
-    q.push(7);
-    q.push(0);
-    q.push(2);
-    cout << "q : " << q << endl;
-    Cvector<int> m;
-    m.push(4);
-    m.push(1);
-    m.push(9);
-    cout << "m : " << m << endl;
-    
-//    Cvector<Cvector<int>> tmp;
-//    tmp.push(p);
-//    tmp.push(q);
-//    tmp.push(m);
-//    cout << "tmp : " << tmp << endl;
-//    cout << "---------------------------------------------------------------" << endl;
-//    cout << "Gram_schmidt: " << tmp.gram_schmidt(tmp) << endl;
-    cout << "---------------------------------------------------------------" << endl;
-    cout << "Angle p_q : " << q.angle(p) << endl;
+# include "CVector.hpp"
+
+int main(){
+
+    // Prueba de los metodos de la clase ///////////////////////////////////////
+
+    cout.precision(5);
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 1) Halle el producto punto entre los siguientes vectores:
+    // a) v1 = (2, -9, 5, 7), v2 = (5, 9, -4, 6), // Res = 329
+    // b) v3 = (15, 7, 12, 10, 3), v4 = (19, 24, 1, -13, 8), Res = 359
+
+    // a)
+    vector<int> a1 = {2, -9, 5, 7};
+    vector<int> b1 = {5, 9, -4, 60};
+    Cvector<int> v1;
+    Cvector<int> v2;
+    for(unsigned i = 0; i < a1.size(); i++){
+        v1.push(a1[i]);
+        v2.push(b1[i]);
+    }
+    cout << "v1: " << v1 << endl;
+    cout << "v2: " << v2 << endl;
+    cout << "v1dotv2: " << v1.dot(v2) << endl;
+    cout << "v2dotv1: " << v2.dot(v1) << endl;
+
+    // b)
+    vector<int> c1 = {15, 7, 12, 10, 3};
+    vector<int> d1 = {19, 24, 1, -13, 8};
+    Cvector<int> v3;
+    Cvector<int> v4;
+    for(unsigned i = 0; i < c1.size(); i++){
+        v3.push(c1[i]);
+        v4.push(d1[i]);
+    }
+    cout << endl;
+    cout << "v3: " << v3 << endl;
+    cout << "v4: " << v4 << endl;
+    cout << "v3dotv4: " << v3.dot(v4) << endl;
+    cout << "v4dotv3: " << v4.dot(v3) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 2) Halle el producto cruz entre los siguientes vectores:
+    // a) v5 = (2, 4, -5), v6 = (-3, -2, 1), Res = (-6, 13, 8)
+    // b) v7 = (1, -3, 4), v8 = (-2, 1, 1), Res = (-7, -9, -5)
+
+    // a)
+    vector<int> a2 = {2, 4, -5};
+    vector<int> b2 = {-3, -2, 1};
+    Cvector<int> v5;
+    Cvector<int> v6;
+    for(unsigned i = 0; i < a2.size(); i++){
+        v5.push(a2[i]);
+        v6.push(b2[i]);
+    }
+    cout << "v5: " << v5 << endl;
+    cout << "v6: " << v6 << endl;
+    cout << "v5crossv6: " << v5.cross(v6) << endl;
+
+    // b)
+    vector<int> c2 = {1, -3, 4};
+    vector<int> d2 = {-2, 1, 1};
+    Cvector<int> v7;
+    Cvector<int> v8;
+    for(unsigned i = 0; i < c2.size(); i++){
+        v7.push(c2[i]);
+        v8.push(d2[i]);
+    }
+    cout << endl;
+    cout << "v7: " << v7 << endl;
+    cout << "v8: " << v8 << endl;
+    cout << "v7crossv8: " << v7.cross(v8) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 3) Halle la norma de los siguientes vectores:
+    // a) v9 = (-5, -2, 4, 7, 5), Res = sqrt(119) = 10,9087
+    // b) v10 = (0, 1, 0, 0, 0, 0, 1, 1, 6), Res = sqrt(39) = 6,2449
+
+    // a)
+    vector<int> a3 = {-5, -2, 4, 7, 5};
+    Cvector<int> v9;
+    for(unsigned i = 0; i < a3.size(); i++){
+        v9.push(a3[i]);
+    }
+    cout << "v9: " << v9 << endl;
+    cout << "Norm of v9: " << v9.norm() << endl;
+
+    // b)
+    vector<int> b3 = {0, 1, 0, 0, 0, 0, 1, 1, 6};
+    Cvector<int> v10;
+    for(unsigned i = 0; i < b3.size(); i++){
+        v10.push(b3[i]);
+    }
+    cout << endl;
+    cout << "v10: " << v10 << endl;
+    cout << "Norm of v10: " << v10.norm() << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 4) Normalice los siguientes vectores:
+    // a) v11 = (-4, 3), Res = (-0.8, 0.6)
+    // b) v12 = (8, -8), Res = (0.7071, -0.7071)
+
+    // a)
+    vector<int> a4 = {-4, 3};
+    Cvector<int> v11;
+    for(unsigned i = 0; i < a4.size(); i++){
+        v11.push(a4[i]);
+    }
+    cout << "v11: " << v11 << endl;
+    cout << "Normalize v11: " << v11.normalize() << endl;
+
+    // b)
+    vector<int> b4 = {8, -8};
+    Cvector<int> v12;
+    for(unsigned i = 0; i < b4.size(); i++){
+        v12.push(b4[i]);
+    }
+    cout << endl;
+    cout << "v12: " << v12 << endl;
+    cout << "Normalize of v12: " << v12.normalize() << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 5) Encuentre el angulo en radianes entre los siguientes vectores:
+    // a) v13 = (2, 4), v14 = (-2, 3), Res = 1,0516 rad
+    // b) v15 = (-1, 3, 4), v16 = (5, -2, 7), Res = 1,183  rad
+
+    // a)
+    vector<int> a5 = {2, 4};
+    vector<int> b5 = {-2, 3};
+    Cvector<int> v13;
+    Cvector<int> v14;
+    for(unsigned i = 0; i < a5.size(); i++){
+        v13.push(a5[i]);
+        v14.push(b5[i]);
+    }
+    cout << "v13: " << v13 << endl;
+    cout << "v14: " << v14 << endl;
+    cout << "Angle between v13 and v14: " << v13.angle(v14) << endl;
+
+    // b)
+    vector<int> c5 = {-1, 3, 4};
+    vector<int> d5 = {5, -2, 7};
+    Cvector<int> v15;
+    Cvector<int> v16;
+    for(unsigned i = 0; i < c5.size(); i++){
+        v15.push(c5[i]);
+        v16.push(d5[i]);
+    }
+    cout << endl;
+    cout << "v15: " << v15 << endl;
+    cout << "v16: " << v16 << endl;
+    cout << "Angle between v15 and v16: " << v15.angle(v16) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 6) Encuentre la proyección del segundo vector sobre el primero
+
+    // a) v17 = (5, 6), v18 = (3, 4), Res = (195/61, 234/61) = (3.1967, 3.8360)
+    // b) v19 = (3, 4), v20 = (5, 6), Res = (117/25, 156/25) = (4.68, 6.24)
+
+    // a)
+    vector<int> a6 = {5, 6};
+    vector<int> b6 = {3, 4};
+    Cvector<int> v17;
+    Cvector<int> v18;
+    for(unsigned i = 0; i < a6.size(); i++){
+        v17.push(a6[i]);
+        v18.push(b6[i]);
+    }
+    cout << "v17: " << v17 << endl;
+    cout << "v18: " << v18 << endl;
+    cout << "Proyection of v18 on v17: " << v17.proy(v18) << endl;
+
+    // b)
+    cout << "Proyection of v17 on v18: " << v18.proy(v17) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // 7) Ortonormalice los siguientes conjuntos de vectores usando el proceso de Gram-Schmidt
+    // a) B1 = {(1, 0, 1), (0, 0, 1), (-1, 1, 0)}, Res = {(sqrt(2)/2, 0, sqrt(2)/2), (-sqrt(2)/2, 0, sqrt(2)/2), (0, 1, 0)}
+    // b) B2 = {(0, 1, -1), (1, 0, 0), (1, 0, 1)}, Res = {(0, sqrt(2)/2, -sqrt(2)/2), (1, 0, 0), (0, 0, 0)}
+
+    // a)
+    Cvector<Cvector<int>> B1;
+    vector<int> a7 = {1, 0, 1};
+    vector<int> b7 = {0, 0, 1};
+    vector<int> c7 = {-1, 1, 0};
+    Cvector<int> v19;
+    Cvector<int> v20;
+    Cvector<int> v21;
+    for(unsigned i = 0; i < a7.size(); i++){
+        v19.push(a7[i]);
+        v20.push(b7[i]);
+        v21.push(c7[i]);
+    }
+    B1.push(v19);
+    B1.push(v20);
+    B1.push(v21);
+
+    cout << "The set B1 is: " << B1 << endl;
+    cout << "the set B1 ortonormalizated is: " << B1.gram_schmidt() << endl;
+
+    // b)
+    Cvector<Cvector<int>> B2;
+    vector<int> d7 = {0, 1, -1};
+    vector<int> e7 = {1, 0, 0};
+    vector<int> f7 = {1, 0, 1};
+    Cvector<int> v22;
+    Cvector<int> v23;
+    Cvector<int> v24;
+    for(unsigned i = 0; i < d7.size(); i++){
+        v22.push(d7[i]);
+        v23.push(e7[i]);
+        v24.push(f7[i]);
+    }
+    B2.push(v22);
+    B2.push(v23);
+    B2.push(v24);
+
+    cout << endl;
+    cout << "The set B2 is: " << B2 << endl;
+    cout << "The set B2 ortonormalizated is: " << B2.gram_schmidt() << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // Prueba de los operadores ////////////////////////////////////////////////
+
+    // Operator == and Operator !=
+    vector<double> aux1 = {0.5, 62, 10.3, 8};
+    Cvector<double> v25;
+    Cvector<double> v26;
+    for(unsigned i = 0; i < aux1.size(); i++){
+        v25.push(aux1[i]);
+        v26.push(aux1[i]);
+    }
+    cout << "v25: " << v25 << endl;
+    cout << "v26: " << v26 << endl;
+    cout << "v25 == v26: " << (v25 == v26) << endl;
+    cout << "v25 != v26: " << (v25 != v26) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // Operator <= and Operator >=, Operator < and Operator >
+    vector<double> aux2 = {1.0, 5.7, 9.6, 46, 8.4, 6.1};
+    vector<double> aux3 = {7.6, 5.7, 6.5, 10.9, 25, 6.74};
+    Cvector<double> v27;
+    Cvector<double> v28;
+    for(unsigned i = 0; i < aux2.size(); i++){
+        v27.push(aux2[i]);
+        v28.push(aux3[i]);
+    }
+    cout << "v27: " << v27 << endl;
+    cout << "v28: " << v28 << endl;
+    cout << "v27 <= v28: " << (v27 <= v28) << endl;
+    cout << "v27 >= v28: " << (v27 >= v28) << endl;
+    cout << "v27 < v28: " << (v27 < v28) << endl;
+    cout << "v27 > v28: " << (v27 > v28) << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // Operator /
+    vector<double> aux4 = {2, 4, 6, 8, 10, 12};
+    Cvector<double> v29;
+    for(unsigned i = 0; i < aux4.size(); i++){
+        v29.push(aux4[i]);
+    }
+    cout << "v29: " << v29 << endl;
+    cout << "v29 / 2: " << v29 / 2.0 << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // Operator ^
+    vector<int> aux5 = {2, 2, 2, 2, 2};
+    Cvector<int> v30;
+    for(unsigned i = 0; i < aux5.size(); i++){
+        v30.push(aux5[i]);
+    }
+    cout << "v30: " << v30 << endl;
+    cout << "v30 ^ 3: " << (v30 ^ 3) << endl;
+    cout << "v30 ^ 4: " << (v30 ^ 4) << endl;
+
+    // Prueba de metodos basicos para Cvector //////////////////////////////////
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+    cout << endl;
+
+    // erase()
+    vector<int> aux6 = {1, 8, 10, 45, 6, 4};
+    Cvector<int> v31;
+    for(unsigned i = 0; i < aux6.size(); i++){
+        v31.push(aux6[i]);
+    }
+    cout << "v31: " << v31 << endl;
+    cout << "v31.erase(3)" << endl;
+    v31.erase(3);
+    cout << "v31: " << v31 << endl;
+    cout << endl;
+
+    // insert()
+    cout << "v31.insert(3, 7)" << endl;
+    v31.insert(3, 7);
+    cout << "v31: " << v31 << endl;
+    cout << endl;
+
+    // clear()
+    cout << "v31.clear()" << endl;
+    v31.clear();
+    cout << "v31: " << v31 << endl;
+    cout << endl;
+
+    // empty()
+    cout << boolalpha << "v31 is empty?: " << v31.empty() << endl;
+    cout << endl;
+
+    // push()
+    cout << "v31.push()" << endl;
+    for(unsigned i = 0; i <= 10; i+=2){
+        v31.push(i);
+    }
+    cout << "v31: " << v31 << endl;
+    cout << endl;
+
+    // empty()
+    cout << boolalpha << "v31 is empty?: " << v31.empty() << endl;
+
+    cout << endl;
+    cout << "-------------------------------------------" << endl;
+
     return 0;
+
+
 }
