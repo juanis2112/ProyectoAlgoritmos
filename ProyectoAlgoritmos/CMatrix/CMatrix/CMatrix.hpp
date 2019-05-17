@@ -109,6 +109,7 @@ class Cmatrix{
     static Cmatrix<numberType> zeros(size_t rows, size_t cols);
     static Cmatrix<numberType> ones(size_t rows, size_t cols);
     static Cmatrix<numberType> random(size_t rows, size_t cols);
+    static Cvector<numberType> diagonal(Cmatrix<numberType> m);
 
 
     void swap_r(size_t row1, size_t row2);
@@ -118,32 +119,12 @@ class Cmatrix{
   
     
     tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
+    tuple<Cmatrix<numberType>, Cmatrix<numberType>> QR();
+    tuple<Cmatrix<numberType>, Cmatrix<numberType>> SVD();
+    Cvector<numberType> eigen_values(const int tol);
     double determinant();
     Cmatrix<numberType> inverse();
-
-
-
-
-    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
-    double determinant();
-  
-
-    ///////////////////// to double precision
-
     Cmatrix<double> toDouble();
-
-
-
-
-    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
-    double determinant();
-  
-
-    ///////////////////// to double precision
-
-    Cmatrix<double> toDouble();
-
-    ///////////////////////////////
 	public:
 		Cvector<numberType> * array;
 		size_t capacity, nRows, nCols;
@@ -151,13 +132,6 @@ class Cmatrix{
 
 };
 
-
-// Matrix Product
-
-template <typename numberType>
-Cmatrix<numberType> product(Cmatrix<numberType> x, Cmatrix<numberType> y); // producto entre matrices
-
-///////////////////////////////
 
 #include "CMatrix.cpp"
 #endif //CMatrix_hpp
