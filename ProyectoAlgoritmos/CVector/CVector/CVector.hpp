@@ -93,7 +93,7 @@ public:
     size_t size() const;
     
     // Math Methods
-    double dot(Cvector w);
+    double dot(Cvector<numberType> w);
     Cvector<double> cross(Cvector<numberType> w);
     double norm();
     Cvector<double> normalize();
