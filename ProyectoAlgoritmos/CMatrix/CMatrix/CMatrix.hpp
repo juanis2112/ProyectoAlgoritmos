@@ -16,13 +16,9 @@
 #include "../../CVector/CVector/CVector.hpp"
 using namespace std;
 
-
-
-
-//*************************************   FRIEND OPERATORS DEFINITIONS   **************************************
+//*************************************   FRIEND OPERATORS DECLARATIONS   *****************************************
 
 template <typename numberType> class Cmatrix;
-//template <typename numberType> numberType operator () (size_t row, size_t col);
 template <typename numberType> Cmatrix<bool> operator == (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 template <typename numberType> Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 template <typename numberType> Cmatrix<bool> operator >(const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
@@ -30,108 +26,119 @@ template <typename numberType> Cmatrix<bool> operator < (const Cmatrix<numberTyp
 template <typename numberType> Cmatrix<bool> operator >= (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 template <typename numberType> Cmatrix<bool> operator <= (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
 
-
-template <typename numberType> Cmatrix<numberType>  operator+ (const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
-template <typename numberType> Cmatrix<numberType>  operator- (const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
-template <typename numberType> Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, const int &y);
-template <typename numberType> Cmatrix<numberType> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType> &y);
-template <typename numberType> Cmatrix<numberType> operator / (const Cmatrix<numberType> &x, const int &y);
-//template <typename numberType> Cmatrix<Cvector<numberType>>  operator^ (const Cmatrix<Cvector<numberType>> &x, const Cmatrix<Cvector<numberType>> &y);
-
+template <typename numberType> Cmatrix<double>  operator+ (const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+template <typename numberType> Cmatrix<double>  operator- (const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+template <typename numberType> Cmatrix<double> operator * (const Cmatrix<numberType> &x, const numberType &y);
+template <typename numberType> Cmatrix<double> operator * ( const numberType &y, const Cmatrix<numberType> &x);
+template <typename numberType> Cmatrix<double> operator * (const Cmatrix<numberType> & x, const Cmatrix<numberType> &y);
+template <typename numberType> Cmatrix<double> operator * (const Cmatrix<numberType> & x, const Cvector<numberType> &y);
+template <typename numberType> Cmatrix<double> operator * (const Cvector<numberType> & x, const Cmatrix<numberType> &y);
+template <typename numberType> Cmatrix<double> operator / (const Cmatrix<numberType> &x, const numberType &y);
+template <typename numberType> Cmatrix<double> operator ^ (const Cmatrix<numberType> &x, const size_t &y);
 
 template <typename numberType> ostream & operator<< (ostream &os, Cmatrix<numberType> &rhs);
-
 
 //*********************************************  CLASS DEFINITION   *********************************************
 
 template<typename numberType>
 class Cmatrix{
-    public:
+public:
 
-		//-------------------------------CONSTRUCTORS AND DESTRUCTOR----------------------------------------------
-		// Empty
-        Cmatrix();
-        // Parametric
-        Cmatrix(const Cmatrix<numberType> &x);
-        // Fill
-        Cmatrix(size_t size, const Cvector<numberType> &x, bool axis = false);
-        //Specialized
-        Cmatrix(size_t row, size_t col, bool type);
-        // Destructor
-        ~Cmatrix();
+//-------------------------------CONSTRUCTORS AND DESTRUCTOR----------------------------------------------------
+    
+    // Empty Constructor
+    Cmatrix();
+    // Fill Constructor
+    Cmatrix(size_t size, const Cvector<numberType> &x, bool axis = false);
+    // Parametric Constructor
+    Cmatrix(const Cmatrix<numberType> &x);
+    //Specialized Constructor
+    Cmatrix(size_t row, size_t col, bool type);
+    // Destructor
+    ~Cmatrix();
 
-        //-----------------------------------------OPERATORS------------------------------------------------------
+//-----------------------------------------OPERATORS------------------------------------------------------------
 
-        // Class member operators
-        Cmatrix<numberType> operator =(const Cmatrix<numberType> &rhs);
-       // numberType operator [:] (size_t row, size_t col);
+    // Class member operators
+    Cmatrix<numberType> operator =(const Cmatrix<numberType> &rhs);
+    numberType operator () (size_t row, size_t col) const;
+    numberType & operator () (size_t row, size_t col);
+    Cvector<numberType> operator [] (size_t idx) const;
+    Cvector<numberType> & operator [](size_t idx);
+    
+    // Friend operators
+    friend Cmatrix<bool> operator == <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend Cmatrix<bool> operator != <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend Cmatrix<bool> operator > <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend Cmatrix<bool> operator < <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend Cmatrix<bool> operator >= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend Cmatrix<bool> operator <= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
+    friend ostream & operator << <> (ostream &os, Cmatrix<numberType> &rhs);
 
-        // Friend operators
-        numberType operator () (size_t row, size_t col) const;
-        numberType & operator () (size_t row, size_t col);
-        Cvector<numberType> operator [] (size_t idx) const;
-        Cvector<numberType> & operator [](size_t idx);
-        //Cvector<numberType> operator () (size_t idx, bool type);
+   // Binary operators
+    friend Cmatrix<double>  operator+ <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+    friend Cmatrix<double>  operator - <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
+    friend Cmatrix<double> operator * <> (const Cmatrix<numberType> &x, const numberType &y);
+    friend Cmatrix<double> operator * <> (const numberType &y, const Cmatrix<numberType> &x);
+    friend Cmatrix<double> operator * <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> &y);
+    friend Cmatrix<double> operator * <>(const Cmatrix<numberType> & x, const Cvector<numberType> &y);
+    friend Cmatrix<double> operator * <>(const Cvector<numberType> & x, const Cmatrix<numberType> &y);
+    friend Cmatrix<double> operator / <> (const Cmatrix<numberType> &x, const numberType &y);
+    friend Cmatrix<double> operator ^ <>(const Cmatrix<numberType> &x, const size_t &y);
 
-        friend Cmatrix<bool> operator == <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend Cmatrix<bool> operator != <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend Cmatrix<bool> operator > <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend Cmatrix<bool> operator < <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend Cmatrix<bool> operator >= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend Cmatrix<bool> operator <= <> (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y);
-        friend ostream & operator << <> (ostream &os, Cmatrix<numberType> &rhs);
-        //friend istream & operator>>(istream &os, const vector &rhs);
+//-------------------------------------------------CLASS METHODS------------------------------------------------------
 
-       // Binary operators
-        friend Cmatrix<numberType>  operator+ <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
-        friend Cmatrix<numberType>  operator - <>(const Cmatrix<numberType> & x, const Cmatrix<numberType> & y);
-        friend Cmatrix<numberType> operator * <> (const Cmatrix<numberType> &x, const int &y);
-        friend Cmatrix<numberType> operator * <>(const Cmatrix<numberType> &x, Cmatrix<numberType> &y);
-        friend Cmatrix<numberType> operator / <> (const Cmatrix<numberType> &x, const int &y);
-//        //friend Cmatrix<Cvector<numberType>>  operator^ <>(const Cmatrix<Cvector<numberType>> &x, const Cmatrix<Cvector<numberType>> &y);
-
-
-    void push (const Cvector<numberType> &value);
-    void erase(size_t index);
-    void insert (size_t index, const Cvector<numberType> & value);
+    // Matrix Methods
+    Cmatrix<double> toDouble() const;
+    void push (const Cvector<numberType> &value, bool axis = 0);
+    void erase(size_t index, bool axis);
+    void insert (size_t index, const Cvector<numberType> & value, bool axis = 0);
     void clear();
     bool empty() const;
-
-    // Getters
     size_t numberCols() const;
     size_t numberRows() const;
 	numberType access (size_t row, size_t cod) const;
+    
+    //Easy Matrixes
+    static Cmatrix<double> eye(size_t N);
+    static Cmatrix<double> zeros(size_t rows, size_t cols);
+    static Cmatrix<double> ones(size_t rows, size_t cols);
+    static Cmatrix<double> random(size_t rows, size_t cols);
+    // Diagonalize PENDIENTE
+    static Cvector<double> diagonal(Cmatrix<numberType> m);
+    Cmatrix<double> permutationMatrix(Cvector<numberType> v);
 
-    Cmatrix<numberType> transpose();
-    Cmatrix<numberType> lowerTriangular();
-    Cmatrix<numberType> upperTriangular();
-    static Cmatrix<numberType> eye(size_t N);
-    static Cmatrix<numberType> zeros(size_t rows, size_t cols);
-    static Cmatrix<numberType> ones(size_t rows, size_t cols);
-    static Cmatrix<numberType> random(size_t rows, size_t cols);
-    static Cvector<numberType> diagonal(Cmatrix<numberType> m);
-
-
+    // Modifiers
     void swap_r(size_t row1, size_t row2);
     void swap_c(size_t col1, size_t col2);
-    Cmatrix<numberType> abs();
-    Cmatrix<numberType> permutationMatrix(Cvector<numberType> v);
-  
+    // appendRows
+    // appendCols
     
-    tuple<Cvector<numberType>, Cmatrix<numberType>, Cmatrix<numberType>> LUP(double Tol);
-    tuple<Cmatrix<numberType>, Cmatrix<numberType>> QR();
-    tuple<Cmatrix<numberType>, Cmatrix<numberType>> SVD();
-    Cvector<numberType> eigen_values(const int tol);
+    // Special Matrixes
+    Cmatrix<numberType> abs();
+    Cmatrix<numberType> transpose();
+    Cmatrix<double> inverse();
+    Cmatrix<double> lowerTriangular();
+    Cmatrix<double> upperTriangular();
+    
+    // Matrix Decompositions
+    tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> LUP(double Tol);
+    tuple<Cmatrix<double>, Cmatrix<double>> QR();
+    //tuple<Cmatrix<double>, Cmatrix<double>> SVD(); // PENDIENTE
+    
+    // Matrix Properties
+    Cvector<double> eigen_values(const double tol);
     double determinant();
-    Cmatrix<numberType> inverse();
-    Cmatrix<double> toDouble();
-	public:
-		Cvector<numberType> * array;
+   
+// ************************************************ PRIVATE *********************************************+*
+    
+	private:
 		size_t capacity, nRows, nCols;
+        Cvector<numberType> * array;
 		void expandCapacity();
+        void Checkrep() const;
 
 };
-
 
 #include "CMatrix.cpp"
 #endif //CMatrix_hpp
