@@ -592,14 +592,31 @@ int main() {
     Cvector<int> p;
     p.push(1);
     p.push(2);
-    p.push(3);
+  
     Cvector<int> q;
     q.push(4);
     q.push(5);
-    q.push(6);
+   
+    Cvector<int> r;
+    r.push(0);
+    r.push(0);
+    
+    Cvector<int> t;
+    t.push(1);
+    t.push(1);
+    t.push(1);
     Cmatrix<int> temp;
-    temp.push(p,1);
-    cout << temp << endl;
+    temp.push(p,0);
+    temp.push(q,0);
+    temp.push(r,false);
+    temp.push(t,1);
+    
+    cout << "Temp : " << temp << endl;
+    cout << "Filas : " << temp.numberRows() << endl;
+    cout << "Columnas: " << temp.numberCols() << endl;
+    
+    Cmatrix<bool> igual = temp != temp;
+    cout << " temp = temp : " << igual << endl;
     return 0;
     
     
