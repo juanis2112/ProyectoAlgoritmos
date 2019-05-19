@@ -13,6 +13,8 @@
 #include <cassert>
 #include <cmath>
 #include <tuple>
+#include <typeinfo>
+#include <list>
 #include "../../CVector/CVector/CVector.hpp"
 using namespace std;
 
