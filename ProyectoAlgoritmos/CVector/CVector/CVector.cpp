@@ -40,7 +40,24 @@ Cvector<numberType>::Cvector(size_t size, numberType value){
 }
 
 /**
+ * It receives a size_t length and creates an object of type Cvector with length Length,
+ * capacity equal to Initial Capacity with indeterminate elements.
+ */
 
+// Size Constructor
+template <typename numberType>
+Cvector<numberType>::Cvector(size_t Length){
+    capacity = Length + Initial_Capacity;
+    array = new numberType[capacity];
+    numberType tmp = numberType{};
+    for (size_t i = 0; i < Length; i ++) array[i] = tmp;
+    length = Length;
+    Checkrep();
+}
+
+/**
+ * It receives a Cvector rhs and creates an object of type Cvector by copying the length,
+ * capacity and elements of rhs.
  */
 
 // Parametric Constructor
@@ -56,22 +73,7 @@ Cvector<numberType>::Cvector(const Cvector &rhs){
 }
 
 /**
-
- */
-
-// Capacity Constructor
-template <typename numberType>
-Cvector<numberType>::Cvector(size_t Length){
-    capacity = Length + Initial_Capacity;
-    array = new numberType[capacity];
-    numberType tmp = numberType{};
-    for (size_t i = 0; i < Length; i ++) array[i] = tmp;
-    length = Length;
-    Checkrep();
-}
-
-/**
-
+ * It deletes the array of the vector and sets the length equal to 0.
  */
 
 // Destructor
