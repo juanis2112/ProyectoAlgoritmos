@@ -17,7 +17,7 @@
 using namespace std;
 const int Initial_Capacity = 10;
 
-//*************************************   FRIEND OPERATORS DEFINITIONS   **************************************
+//*************************************   FRIEND OPERATORS DEFINITIONS   *****************************************
 
 template <typename numberType> class Cvector;
 template <typename numberType> Cvector<bool> operator == (const Cvector<numberType> &x , const Cvector<numberType> &y);
@@ -36,7 +36,7 @@ template <typename numberType> Cvector<double>  operator ^ (const Cvector<number
 template <typename numberType> ostream & operator << (ostream &os, const Cvector<numberType> &rhs);
 
 
-//*********************************************  CLASS DEFINITION   *********************************************
+//*********************************************  CLASS DEFINITION   **********************************************
 
 template <typename numberType>
 class Cvector{
@@ -98,11 +98,11 @@ public:
     double norm();
     Cvector<double> normalize();
     double angle (Cvector<numberType> &x);
-    Cvector<double> proy(Cvector<numberType> &x);
+    Cvector<double> proj(Cvector<numberType> &x);
     Cvector<Cvector<double>>  gram_schmidt();
     
     
-//*********************************************  PRIVATE  *********************************************
+//*********************************************  PRIVATE  *****************************************************
 
 private:
     size_t capacity = Initial_Capacity ,

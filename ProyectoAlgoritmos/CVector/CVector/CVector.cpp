@@ -6,7 +6,12 @@
 
 #ifdef CVector_hpp
 
-//-------------------------------CONSTRUCTORS AND DESTRUCTOR------------------------------------------------------
+//-------------------------------------------CONSTRUCTORS AND DESTRUCTOR--------------------------------
+
+/**
+ * It does not receive any parameter and creates an object of empty type Cvector with 
+ * length 0 and capacity equal to Initial Capacity.
+ */
 
 // Empty Constructor
 template <typename numberType>
@@ -17,6 +22,13 @@ Cvector<numberType>::Cvector(){
     Checkrep();
 }
 
+/** 
+ * Receives a size\_t Length and a numberType value and creates an object of type Empty 
+ * vector with length Length, capacity equal to Initial Capacity and each of its elements 
+ * is equal to value.
+ *
+ */
+
 // Fill Constructor
 template <typename numberType>
 Cvector<numberType>::Cvector(size_t size, numberType value){
@@ -26,6 +38,10 @@ Cvector<numberType>::Cvector(size_t size, numberType value){
     for (size_t i = 0; i < length; i++) array[i] = value;
     Checkrep();
 }
+
+/**
+
+ */
 
 // Parametric Constructor
 template <typename numberType>
@@ -39,6 +55,10 @@ Cvector<numberType>::Cvector(const Cvector &rhs){
     Checkrep();
 }
 
+/**
+
+ */
+
 // Capacity Constructor
 template <typename numberType>
 Cvector<numberType>::Cvector(size_t Length){
@@ -50,18 +70,21 @@ Cvector<numberType>::Cvector(size_t Length){
     Checkrep();
 }
 
+/**
+
+ */
+
 // Destructor
 template <typename numberType>
 Cvector<numberType>::~Cvector(){
     length = 0;
     delete[] array;
-    Checkrep();
-    
+    Checkrep();  
 }
 
-//------------------------------------- OPERATORS ------------------------------------------
+//------------------------------------- OPERATORS ---------------------------------------------------
 
-// Class member operators
+//----------------------------------Class Member operators ------------------------------------------
 
 // Operator =
 template <typename numberType>
@@ -324,9 +347,32 @@ Cvector<double> operator ^ (const Cvector<numberType> &x, const int y){
     return result;
 }
 
-//------------------------------------------CLASS METHODS--------------------------------------------------------
+//------------------------------------------CLASS METHODS-------------------------------------------
 
-//-------------------------------------Vector Methods ------------------------------------------
+//-----------------------------------------Vector Methods ------------------------------------------
+
+/**
+ * Converts the elements in the Cvector to double precision.
+ */
+
+// To Double precision
+template <typename numberType>
+Cvector<double> Cvector<numberType>::toDouble() const{
+    Checkrep();
+    assert(!(is_same<numberType, char>::value));
+    assert(is_arithmetic<numberType>::value);
+    Cvector<double> aux;
+    for(size_t i = 0; i < this -> size(); i++){
+        aux.push(double(array[i]));
+    }
+    Checkrep();
+    return aux;
+}
+
+/**
+ * Receives a numberType value and inserts it at the end of the vector. 
+ * It does not return anything.
+ */
 
 // Push
 template <typename numberType>
@@ -339,6 +385,11 @@ void Cvector<numberType>::push(numberType value){
     Checkrep();
 }
 
+/**
+ * Receives a size_t index and deletes the vector element corresponding to that index. It 
+ * does not return anything.
+ */
+
 // Erase
 template <typename numberType>
 void Cvector<numberType>::erase(size_t index){
@@ -347,6 +398,11 @@ void Cvector<numberType>::erase(size_t index){
     length --;
     Checkrep();
 }
+
+/**
+ * Receives a size_t index and a numberType value and inserts it into the position of the 
+ * vector corresponding to that index. It does not return anything.
+ */
 
 // Insert
 template <typename numberType>
@@ -359,6 +415,11 @@ void Cvector<numberType>::insert (size_t index, numberType value){
     Checkrep();
 }
 
+/**
+ * It does not receive parameters and it assigns the length of the vector "this" equal to 0.
+ */
+
+
 // Clear
 template <typename numberType>
 void Cvector<numberType>::clear(){
@@ -367,12 +428,22 @@ void Cvector<numberType>::clear(){
     Checkrep();
 }
 
+/**
+ * It does not receive parameters and verifies if the vector is empty. It returns a bool.
+ */
+
+
 // Empty
 template <typename numberType>
 bool Cvector<numberType>::empty() const{
     Checkrep();
     return (length == 0);
 }
+
+/**
+ * It does not receive parameters and returns the length of the vector.
+ */
+
 
 // Size
 template <typename numberType>
@@ -382,6 +453,13 @@ size_t Cvector<numberType>::size() const{
 }
 
 //-------------------------------------Vector Methods ------------------------------------------
+
+
+/**
+ * It receives a Cvector w and calculates the point product between "this" 
+ * and the Cvector w. Returns a double type scalar.
+ */
+
 
 // Dot Product
 template <typename numberType>
@@ -409,6 +487,12 @@ double Cvector<numberType>::dot(Cvector<numberType> arr){
     return out;
 }
 
+/**
+ * It receives a Cvector w and calculates the cross product between "this" 
+ * and the Cvector w. Returns a Cvector
+ */
+
+
 // Cross Product
 template <typename numberType>
 Cvector<double> Cvector<numberType>::cross(Cvector<numberType> arr){
@@ -431,6 +515,11 @@ Cvector<double> Cvector<numberType>::cross(Cvector<numberType> arr){
     return out;
 }
 
+/**
+ * Calculates the norm of the vector and returns a double.
+ */
+
+
 // Norm
 template <typename numberType>
 double Cvector<numberType>::norm(){
@@ -448,6 +537,10 @@ double Cvector<numberType>::norm(){
     return out;
 }
 
+/**
+ * Normalizes the vector and returns a Cvector of doubles.
+ */
+
 // Normalize
 template <typename numberType>
 Cvector<double> Cvector<numberType>::normalize(){
@@ -464,6 +557,10 @@ Cvector<double> Cvector<numberType>::normalize(){
     Checkrep();
     return out;
 }
+
+/**
+ * Calculates the angle in radians between the angle x and "this" returning a double.
+ */
 
 // Angle
 template <typename numberType>
@@ -485,9 +582,15 @@ double Cvector<numberType>::angle(Cvector<numberType> &x){
     return result;
 }
 
+/**
+ * Calculates the proyection of the vector x in the vector "this" and returns a 
+ * vector of doubles.
+ */
+
+
 // Projection
 template <typename numberType>
-Cvector<double> Cvector<numberType>::proy(Cvector<numberType> &x){
+Cvector<double> Cvector<numberType>::proj(Cvector<numberType> &x){
     Checkrep();
     x.Checkrep();
     assert(!(is_same<numberType, char>::value));
@@ -505,6 +608,12 @@ Cvector<double> Cvector<numberType>::proy(Cvector<numberType> &x){
     x.Checkrep();
     return result;
 }
+
+/**
+ * Receives a vector of vectors and ortonormalizes the base formed by these vectors, 
+ * returning another vector of vectors.
+ */
+
 
 // Gram Schmidt
 template <typename numberType>
@@ -532,21 +641,12 @@ Cvector<Cvector<double>> Cvector<numberType>::gram_schmidt(){
     return result;
 }
 
-//*********************************************  PRIVATE  *********************************************
+//*********************************************  PRIVATE  *****************************************
 
-// To Double precision
-template <typename numberType>
-Cvector<double> Cvector<numberType>::toDouble() const{
-    Checkrep();
-    assert(!(is_same<numberType, char>::value));
-    assert(is_arithmetic<numberType>::value);
-    Cvector<double> aux;
-    for(size_t i = 0; i < this -> size(); i++){
-        aux.push(double(array[i]));
-    }
-    Checkrep();
-    return aux;
-}
+/**
+ * Expands the capacity of the Cvector by doubling it.
+ */
+
 
 //Expand Capacity
 template <typename numberType>
@@ -561,6 +661,12 @@ void Cvector<numberType>::expandCapacity(){
     delete[] Oldarray;
     Checkrep();
 }
+
+/**
+ * Asserts that the length of the vector is always greater than 0 and that the length 
+ * of the vector is always greater or equal than the capacity.
+ */
+
 
 // Check Representation Invariant
 template <typename numberType>
