@@ -49,7 +49,7 @@ public:
     // Fill Constructor
     Cvector(size_t size, numberType value);
     // Parametric Constructor
-    Cvector(const Cvector &rhs);
+    Cvector(const Cvector<numberType> &rhs);
     // Size Constructor
     Cvector(size_t Length);
     // Destructor
@@ -58,7 +58,7 @@ public:
 //-----------------------------------------OPERATORS--------------------------------------------------------------
 
     // Class member operators
-    Cvector<numberType> operator =(const Cvector &rhs);
+    Cvector<numberType> operator =(const Cvector<numberType> &rhs);
     numberType operator [] (size_t idx) const;
     numberType & operator [](size_t idx);
 

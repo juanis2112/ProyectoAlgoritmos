@@ -32,7 +32,7 @@ Cvector<numberType>::Cvector(){
 // Fill Constructor
 template <typename numberType>
 Cvector<numberType>::Cvector(size_t size, numberType value){
-    capacity = Initial_Capacity;
+    capacity = size + Initial_Capacity;
     array = new numberType [capacity];
     length = size;
     for (size_t i = 0; i < length; i++) array[i] = value;
@@ -62,7 +62,7 @@ Cvector<numberType>::Cvector(size_t Length){
 
 // Parametric Constructor
 template <typename numberType>
-Cvector<numberType>::Cvector(const Cvector &rhs){
+Cvector<numberType>::Cvector(const Cvector<numberType> &rhs){
     capacity = rhs.capacity + Initial_Capacity;
     array = new numberType[capacity];
     for (size_t i = 0; i < rhs.length; i++){
@@ -90,10 +90,10 @@ Cvector<numberType>::~Cvector(){
 
 // Operator =
 template <typename numberType>
-Cvector<numberType> Cvector<numberType>::operator=(const Cvector &rhs){
+Cvector<numberType> Cvector<numberType>::operator=(const Cvector<numberType> &rhs){
     Checkrep();
     rhs.Checkrep();
-    numberType *Oldarray = this -> array;
+    numberType *Oldarray = array;
     capacity = rhs.capacity + Initial_Capacity;
     array = new numberType[capacity];
     for (size_t i = 0; i < rhs.length; i++){
@@ -382,6 +382,7 @@ void Cvector<numberType>::push(numberType value){
     Checkrep();
     if(length == capacity){
         expandCapacity();
+        cout << "Estoy expandiendo capacidad :( " << endl;
     }
     array[length++] = value;
     Checkrep();
@@ -421,7 +422,6 @@ void Cvector<numberType>::insert (size_t index, numberType value){
  * It does not receive parameters and it assigns the length of the vector "this" equal to 0.
  */
 
-
 // Clear
 template <typename numberType>
 void Cvector<numberType>::clear(){
@@ -434,7 +434,6 @@ void Cvector<numberType>::clear(){
  * It does not receive parameters and verifies if the vector is empty. It returns a bool.
  */
 
-
 // Empty
 template <typename numberType>
 bool Cvector<numberType>::empty() const{
@@ -446,7 +445,6 @@ bool Cvector<numberType>::empty() const{
  * It does not receive parameters and returns the length of the vector.
  */
 
-
 // Size
 template <typename numberType>
 size_t Cvector<numberType>::size() const{
@@ -456,12 +454,10 @@ size_t Cvector<numberType>::size() const{
 
 //-------------------------------------Vector Methods ------------------------------------------
 
-
 /**
  * It receives a Cvector w and calculates the point product between "this" 
  * and the Cvector w. Returns a double type scalar.
  */
-
 
 // Dot Product
 template <typename numberType>
@@ -494,7 +490,6 @@ double Cvector<numberType>::dot(Cvector<numberType> arr){
  * and the Cvector w. Returns a Cvector
  */
 
-
 // Cross Product
 template <typename numberType>
 Cvector<double> Cvector<numberType>::cross(Cvector<numberType> arr){
@@ -520,7 +515,6 @@ Cvector<double> Cvector<numberType>::cross(Cvector<numberType> arr){
 /**
  * Calculates the norm of the vector and returns a double.
  */
-
 
 // Norm
 template <typename numberType>
@@ -589,7 +583,6 @@ double Cvector<numberType>::angle(Cvector<numberType> &x){
  * vector of doubles.
  */
 
-
 // Projection
 template <typename numberType>
 Cvector<double> Cvector<numberType>::proj(Cvector<numberType> &x){
@@ -615,7 +608,6 @@ Cvector<double> Cvector<numberType>::proj(Cvector<numberType> &x){
  * Receives a vector of vectors and ortonormalizes the base formed by these vectors, 
  * returning another vector of vectors.
  */
-
 
 // Gram Schmidt
 template <typename numberType>
@@ -649,7 +641,6 @@ Cvector<Cvector<double>> Cvector<numberType>::gram_schmidt(){
  * Expands the capacity of the Cvector by doubling it.
  */
 
-
 //Expand Capacity
 template <typename numberType>
 void Cvector<numberType>::expandCapacity(){
@@ -668,7 +659,6 @@ void Cvector<numberType>::expandCapacity(){
  * Asserts that the length of the vector is always greater than 0 and that the length 
  * of the vector is always greater or equal than the capacity.
  */
-
 
 // Check Representation Invariant
 template <typename numberType>

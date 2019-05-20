@@ -10,7 +10,7 @@ int main(){
     cout << "------------------------------------------------------------------------" << endl;
     cout << endl;
     cout<< "1) Halle el producto punto entre los siguientes vectores: " <<endl;
-    cout<< "  a) v1 = (2, -9, 5, 7), v2 = (5, 9, -4, 6)," <<endl;  // Res = 329
+    cout<< "  a) v1 = (2, -9, 5, 7), v2 = (5, 9, -4, 60)," <<endl;  // Res = 329
     cout<< "  b) v3 = (15, 7, 12, 10, 3), v4 = (19, 24, 1, -13, 8)"<<endl; // Res = 359
     cout <<endl;
     cout<< " a) "<<endl;
@@ -112,8 +112,8 @@ int main(){
     cout << endl;
 
     cout<< "4) Normalice los siguientes vectores: " <<endl;
-    cout<< " a) v11 = (-4, 3), Res = (-0.8, 0.6) " <<endl;
-    cout<< " b) v12 = (8, -8), Res = (0.7071, -0.7071) " <<endl;
+    cout<< " a) v11 = (-4, 3), " <<endl;//Res = (-0.8, 0.6)
+    cout<< " b) v12 = (8, -8), "<<endl; //Res = (0.7071, -0.7071)
     cout << endl;
     cout<< " a) "<<endl;
     cout << endl;
@@ -140,8 +140,8 @@ int main(){
     cout << endl;
 
     cout<< "5) Encuentre el angulo en radianes entre los siguientes vectores:" <<endl;
-    cout<< " a) v13 = (2, 4), v14 = (-2, 3), Res = 1,0516 rad" <<endl;
-    cout<< " b) v15 = (-1, 3, 4), v16 = (5, -2, 7), Res = 1,183  rad" <<endl;
+    cout<< " a) v13 = (2, 4), v14 = (-2, 3)," <<endl; // Res = 1,0516 rad
+    cout<< " b) v15 = (-1, 3, 4), v16 = (5, -2, 7)," <<endl;// Res = 1,183  rad
     cout << endl;
     cout<< " a) "<<endl;
     cout << endl;
@@ -176,8 +176,8 @@ int main(){
     cout << endl;
 
     cout<< "6) Encuentre la proyección del segundo vector sobre el primero" <<endl;
-    cout<< " a) v17 = (5, 6), v18 = (3, 4), Res = (195/61, 234/61) = (3.1967, 3.8360)" <<endl;
-    cout<< " b) v19 = (3, 4), v20 = (5, 6), Res = (117/25, 156/25) = (4.68, 6.24)" <<endl;
+    cout<< " a) v17 = (5, 6), v18 = (3, 4)," <<endl;// Res = (195/61, 234/61) = (3.1967, 3.8360)
+    cout<< " b) v19 = (3, 4), v20 = (5, 6), " <<endl; //Res = (117/25, 156/25) = (4.68, 6.24)
     cout << endl;
     cout<< " a) "<<endl;
     cout << endl;
@@ -201,8 +201,8 @@ int main(){
     cout << endl;
 
     cout<< "7) Ortonormalice los siguientes conjuntos de vectores usando el proceso de Gram-Schmidt " <<endl;
-    cout<< " a) B1 = {(1, 0, 1), (0, 0, 1), (-1, 1, 0)}, Res = {(sqrt(2)/2, 0, sqrt(2)/2), (-sqrt(2)/2, 0, sqrt(2)/2), (0, 1, 0)}" <<endl;
-    cout<< " b) B2 = {(0, 1, -1), (1, 0, 0), (1, 0, 1)}, Res = {(0, sqrt(2)/2, -sqrt(2)/2), (1, 0, 0), (0, 0, 0)}" <<endl;
+    cout<< " a) B1 = {(1, 0, 1), (0, 0, 1), (-1, 1, 0)}, " <<endl;// Res = {(sqrt(2)/2, 0, sqrt(2)/2), (-sqrt(2)/2, 0, sqrt(2)/2), (0, 1, 0)}
+    cout<< " b) B2 = {(0, 1, -1), (1, 0, 0), (1, 0, 1)}, " <<endl; // Res = {(0, sqrt(2)/2, -sqrt(2)/2), (1, 0, 0), (0, 0, 0)}" <<endl;
     cout << endl;
     cout<< " a) "<<endl;
     cout << endl;

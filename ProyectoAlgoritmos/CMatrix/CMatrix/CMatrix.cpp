@@ -11,6 +11,11 @@
 
 //-------------------------------CONSTRUCTORS AND DESTRUCTOR----------------------------------------------------
 
+/**
+  * It does not receive any parameter and creates an object of empty type Cmatrix with
+  * length 0 and capacity equal to Initial Capacity.
+ */
+
 // Empty Constructor
 template <typename numberType>
 Cmatrix<numberType>::Cmatrix() {
@@ -20,6 +25,11 @@ Cmatrix<numberType>::Cmatrix() {
     array = new Cvector<numberType> [capacity];
     Checkrep();
 }
+
+/**
+ * Receives a size_t Length and a numberType value and creates an object of type Empty
+ * matrix with length length, capacity equal to Initial Capacity and each of its
+ */
 
 // Fill Constructor
 template <typename numberType>
@@ -49,6 +59,11 @@ Cmatrix<numberType>:: Cmatrix(size_t size, const Cvector<numberType> &x, bool ax
     Checkrep();
 }
 
+/**
+ * It receives a Cmatrix rhs and creates an object of type Cmatrix by copying the length,
+ * capacity and elements of rhs.
+ */
+
 // Parametric Constructor
 template <typename numberType>
 Cmatrix<numberType>::Cmatrix(const Cmatrix<numberType> &x){
@@ -60,6 +75,12 @@ Cmatrix<numberType>::Cmatrix(const Cmatrix<numberType> &x){
     Checkrep();
 }
 
+/**
+ * It receives a size_t row and a size_t col and a bool. If the bool is true, and the values of
+ * row and col are equal, it constructs an identity matrix. If the bool is false it constructs a
+ * matrix of size row x col filled with zeros.
+ */
+
 //Specialized Constructor
 template <typename numberType>
 Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
@@ -69,6 +90,7 @@ Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
     capacity = nRows + Initial_Capacity;
     array = new Cvector<numberType> [capacity];
     Cvector<numberType> tmp(nCols,0);
+    
     if (type == true){
         for (size_t i = 0; i < nRows ; i++){
             tmp[i] = 1;
@@ -83,6 +105,11 @@ Cmatrix<numberType>:: Cmatrix(size_t row, size_t col, bool type){
         }
     Checkrep();
 }
+
+/**
+ * 
+ *
+ */
 
 // Destructor
 template <typename numberType>
@@ -159,7 +186,6 @@ Cmatrix<bool> operator == (const Cmatrix<numberType> &x , const Cmatrix<numberTy
     return result;
 }
 
-
 // Operator !=
 template <typename numberType>
 Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
@@ -175,6 +201,7 @@ Cmatrix<bool> operator != (const Cmatrix<numberType> &x , const Cmatrix<numberTy
     y.Checkrep();
     return result;
 }
+
 // Operator >
 template <typename numberType>
 Cmatrix<bool> operator > (const Cmatrix<numberType> &x , const Cmatrix<numberType> &y){
@@ -323,9 +350,8 @@ Cmatrix<double> operator * (const numberType &y, const Cmatrix<numberType> &x){
 
 // Operator Matrix-Vector Multiplication
 template <typename numberType>
-Cmatrix<double> operator * (const Cmatrix<numberType> &x, Cvector<numberType> &y){
+Cmatrix<double> operator * (const Cmatrix<numberType> &x, const Cvector<numberType> &y){
     x.Checkrep();
-    y.Checkrep();
     assert(!(is_same<numberType, char>::value));
     assert(is_arithmetic<numberType>::value);
     assert(x.numberCols() == y.size());
@@ -337,14 +363,12 @@ Cmatrix<double> operator * (const Cmatrix<numberType> &x, Cvector<numberType> &y
     }
     Cmatrix<double> out(1,result,1);
     x.Checkrep();
-    y.Checkrep();
     return out;
 }
 
 // Operator Vector-Matrix Multiplication
 template <typename numberType>
-Cmatrix<double> operator * (const Cvector<numberType> &x, Cmatrix<numberType> &y){
-    x.Checkrep();
+Cmatrix<double> operator * (const Cvector<numberType> &x, const Cmatrix<numberType> &y){
     y.Checkrep();
     assert(!(is_same<numberType, char>::value));
     assert(is_arithmetic<numberType>::value);
@@ -356,14 +380,13 @@ Cmatrix<double> operator * (const Cvector<numberType> &x, Cmatrix<numberType> &y
         }
     }
     Cmatrix<double> out(1,result,0);
-    x.Checkrep();
     y.Checkrep();
     return out;
 }
 
 // Operator * Matrix Multiplication
 template <typename numberType>
-Cmatrix<double> operator * (const Cmatrix<numberType> &x, Cmatrix<numberType> &y){
+Cmatrix<double> operator * (const Cmatrix<numberType> &x, const Cmatrix<numberType> &y){
     x.Checkrep();
     y.Checkrep();
     assert(!(is_same<numberType, char>::value));
@@ -417,6 +440,10 @@ Cmatrix<double> operator ^ (const Cmatrix<numberType> &x, const size_t &y){
 
 //-------------------------------------Matrix Methods------------------------------------------------
 
+/**
+ * Converts the elements in the Cmatrix to double precision.
+ */
+
 // To Double precision
 template <typename numberType>
 Cmatrix<double> Cmatrix<numberType>:: toDouble() const{
@@ -430,6 +457,10 @@ Cmatrix<double> Cmatrix<numberType>:: toDouble() const{
     Checkrep();
     return aux;
 }
+
+/**
+ * Receives a numberType value and inserts it at the end of the matrix. It does not return anything.
+ */
 
 // Push
 template <typename numberType>
@@ -452,6 +483,11 @@ void Cmatrix<numberType>::push(const Cvector<numberType> &value, bool axis){
     Checkrep();
 }
 
+/**
+ * Receives a size_t index and deletes the matrix element corresponding to that index.
+ * It does not return anything.
+ */
+
 // Erase
 template <typename numberType>
 void Cmatrix<numberType>::erase(size_t index, bool axis){
@@ -471,19 +507,24 @@ void Cmatrix<numberType>::erase(size_t index, bool axis){
     Checkrep();
 }
 
+/**
+ * Receives a size_t index and a numberType value and inserts it into the position of the matrix
+ * corresponding to that index. It does not return anything.
+ */
+
 // Insert
 template <typename numberType>
 void Cmatrix<numberType>::insert (size_t index, const Cvector<numberType> & value, bool axis){
     Checkrep();
     if (axis == false){
-        assert((index >= 0 && index <= nRows)&&(value.size() == nRows));
+        assert((index >= 0 && index <= nCols)&&(value.size() == nCols));
         if (nRows == capacity) expandCapacity();
         for (size_t i = nRows; i > index; i--) array[i] = array[i-1];
         array[index] = value;
         nRows ++;
     }
     else if(axis == true){
-        assert((index >= 0 && index <= nCols)&&(value.size() == nCols));
+        assert((index >= 0 && index <= nRows)&&(value.size() == nRows));
         (*this) = (*this).transpose();
         if(nRows == capacity) expandCapacity();
         for (size_t i = nRows; i > index; i--) array[i] = array[i-1];
@@ -494,12 +535,20 @@ void Cmatrix<numberType>::insert (size_t index, const Cvector<numberType> & valu
     Checkrep();
 }
 
+/**
+ * It does not receive parameters and returns the number of rows of the matrix.
+ */
+
 // Number Rows
 template <typename numberType>
 size_t Cmatrix<numberType>::numberCols() const{
     Checkrep();
     return nCols;
 }
+
+/**
+ * It does not receive parameters and returns the number of columns of the matrix.
+ */
 
 // Number Cols
 template <typename numberType>
@@ -533,6 +582,10 @@ numberType Cmatrix<numberType>::access(size_t row, size_t col) const{
 
 //-------------------------------------Easy Matrixes------------------------------------------------
 
+/**
+ * Creates an identity matrix of size N x N
+ */
+
 // Identity Matrix
 template <typename numberType>
 Cmatrix<double> Cmatrix<numberType>::eye(size_t N) {
@@ -544,6 +597,10 @@ Cmatrix<double> Cmatrix<numberType>::eye(size_t N) {
     }
     return t;
 }
+
+/**
+ * Creates a matrix of zeros of size Rows x Cols
+ */
 
 // Zeros Matrix
 template <typename numberType>
@@ -557,6 +614,10 @@ Cmatrix<double> Cmatrix<numberType>::zeros(size_t rows, size_t cols) {
     return t;
 }
 
+/**
+ * Creates a matrix of ones of size Rows x Cols
+ */
+
 // Ones Matrix
 template <typename numberType>
 Cmatrix<double> Cmatrix<numberType>::ones(size_t rows, size_t cols) {
@@ -568,6 +629,10 @@ Cmatrix<double> Cmatrix<numberType>::ones(size_t rows, size_t cols) {
     }
     return t;
 }
+
+/**
+ * Creates a matrix of random numbers of size Rows x Cols
+ */
 
 // Random Matrix
 template <typename numberType>
@@ -581,13 +646,29 @@ Cmatrix<double> Cmatrix<numberType>::random(size_t rows, size_t cols) {
     return t;
 }
 
-// Matrix from Diagonal
+/**
+ *
+ */
 
-// PENDIENTE -- Diagonalize
+// Matrix from Diagonal
+template <typename numberType>
+Cmatrix<double> diagonalize(const Cvector<numberType> &rhs) {
+    Cvector<double> copia = rhs.toDouble();
+    Cmatrix<double> result = Cmatrix<numberType>::zeros(copia.size());
+    for (size_t i = 0; i < copia.size(); i++) {
+        result(i,i) = copia[i];
+    }
+    return result;
+}
+
+
+/**
+ * Creates a vector with the elements of the diagonal of a matrix.
+ */
 
 // Vector from Diagonal
 template <typename numberType>
-Cvector<double> Cmatrix<numberType>::diagonal(Cmatrix<numberType> m) {
+Cvector<double> Cmatrix<numberType>::diagonal(Cmatrix<numberType> &m) {
     m.Checkrep();
     assert(!(is_same<numberType, char>::value));
     assert(is_arithmetic<numberType>::value);
@@ -601,28 +682,37 @@ Cvector<double> Cmatrix<numberType>::diagonal(Cmatrix<numberType> m) {
     return v;
 }
 
+/**
+ * Creates a permutation matrix from a vector where each element of the vector indicates a "1" in
+ * the corresponding column index.
+ */
+
 // Permutation Matrix
 template <typename numberType>
-Cmatrix<double> Cmatrix<numberType>::permutationMatrix(Cvector<numberType> v) {
-    Checkrep();
-    v.Checkrep();
+Cmatrix<double> Cmatrix<numberType>::permutationMatrix(Cvector<numberType> &v) {
     assert(!(is_same<numberType, char>::value));
     assert(is_arithmetic<numberType>::value);
+    Cvector<int> v_int;
     for(size_t i = 0; i < v.size(); i++){
-        assert((v[i] < v.size()) && (v[i] >= 0)&&(typeid(v[i]) == typeid(int(1))));
+        assert((v[i] <= v.size()));
+        assert((v[i] >= 0));
+        v_int.push(int(v[i]));
     }
     Cmatrix<double> p;
-    Cvector<double> copia_vector = v.toDouble();
+    Cvector<double> copia_vector = v_int.toDouble();
     p = Cmatrix<numberType>::zeros(copia_vector.size()-1, copia_vector.size()-1);
-    for (int i = 0; i < copia_vector.size(); i++) {
-        p[i][copia_vector[i]] = 1;
+    for (size_t i = 0; i < copia_vector.size(); i++) {
+        p(i,copia_vector[i]) = double(1);
     }
-    Checkrep();
-    v.Checkrep();
     return p;
 }
 
 //-------------------------------------Modifiers------------------------------------------------
+
+/**
+ * Swaps rows row1 and row2.
+ */
+
 
 // Swap_r
 template <typename numberType>
@@ -633,6 +723,10 @@ void Cmatrix<numberType>::swap_r(size_t row1, size_t row2){
     array[row2] = tmp;
     Checkrep();
 }
+
+/**
+ * Swaps rows col1 and col2.
+ */
 
 // Swap_c
 template <typename numberType>
@@ -647,11 +741,11 @@ void Cmatrix<numberType>::swap_c(size_t col1, size_t col2){
     Checkrep();
 }
 
-// Append Rows
-
-// Append Cols
-
 //-------------------------------------Special Matrixes------------------------------------------------
+
+/**
+ * Returns a matrix with the absolute value elementwise of "this".
+ */
 
 // Abs
 template <typename numberType>
@@ -668,6 +762,10 @@ Cmatrix<numberType> Cmatrix<numberType>::abs(){
     Checkrep();
     return result;
 }
+
+/**
+ * Returns the transpose of "this".
+ */
 
 // Transpose
 template <typename numberType>
@@ -687,6 +785,10 @@ Cmatrix<numberType> Cmatrix<numberType>::transpose() {
     return t;
 }
 
+/**
+ * Returns the inverse of "this".
+ */
+
 // Inverse
 template <typename numberType>
 Cmatrix<double> Cmatrix<numberType>::inverse(){
@@ -705,7 +807,7 @@ Cmatrix<double> Cmatrix<numberType>::inverse(){
     Linv = Cmatrix<double>::zeros(N,N);
     Uinv = Cmatrix<double>::zeros(N,N);
     Ainv = Cmatrix<double>::zeros(N,N);
-    Pinv = permutationMatrix(P);
+    Pinv = Cmatrix<double>::permutationMatrix(P);
     // Inverse of L
     for(int k=0; k<N; k++){
         Linv(k,k) = 1/L(k,k);
@@ -714,10 +816,9 @@ Cmatrix<double> Cmatrix<numberType>::inverse(){
         }
     }
     // Inverse of U
-    for(long k=N-1; k>=0; --k){
-        size_t tmp = static_cast<unsigned>(k);
-        Uinv(tmp,tmp) = 1/U(tmp,tmp);
-        for(long i=tmp-1; i>=0; i--){
+    for(int k=N-1; k>=0; --k){
+        Uinv(k,k) = 1/U(k,k);
+        for(long i=k-1; i>=0; i--){
             Uinv(i,k) = (-U[i].dot((Uinv.transpose())[k]))/U(i,i);
         }
     }
@@ -725,6 +826,10 @@ Cmatrix<double> Cmatrix<numberType>::inverse(){
     Checkrep();
     return Ainv;
 }
+
+/**
+ * Returns a lowerTriangular matrix copying the corresponding elements of "this".
+ */
 
 // Lower Triangular
 template <typename numberType>
@@ -744,6 +849,10 @@ Cmatrix<double> Cmatrix<numberType>::lowerTriangular() {
     Checkrep();
     return t;
 }
+
+/**
+ * Returns a upperTriangular matrix copying the corresponding elements of "this".
+ */
 
 // Upper Triangular
 template <typename numberType>
@@ -765,6 +874,12 @@ Cmatrix<double> Cmatrix<numberType>::upperTriangular() {
 }
 
 //-------------------------------------Matrix Decompositions-----------------------------------------
+
+/**
+ * Computes the LUP decomposition of the matrix "this". Returns a tuple composed by the
+ * matrix L, the matrix U and a vector P that corresponds to the permutation matrix of
+ * the decomposition.
+ */
 
 // LUP
 template <typename numberType>
@@ -788,7 +903,7 @@ tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> Cmatrix<numberType>::LU
         indexMax = i;
 
         for (k = i; k < N; k++){
-            absA = fabs(A.array[k][i]);
+            absA = fabs(A[k][i]);
             if (absA > maxPivot) {
                 maxPivot = absA;
                 indexMax = k;
@@ -803,17 +918,17 @@ tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> Cmatrix<numberType>::LU
 
             // Permuting rows
             Cvector<double> PivotVector;
-            PivotVector = A.array[i];
-            A.array[i] = A.array[indexMax];
-            A.array[indexMax] = PivotVector;
+            PivotVector = A[i];
+            A[i] = A[indexMax];
+            A[indexMax] = PivotVector;
 
             P[N]++;
         }
         for (j = i + 1; j < N; j++) {
-            A.array[j][i] /= A.array[i][i];
+            A[j][i] /= A[i][i];
 
             for (k = i + 1; k < N; k++)
-                A.array[j][k] -= A.array[j][i] * A.array[i][k];
+                A[j][k] -= A[j][i] * A[i][k];
         }
     }
     U = A.upperTriangular();
@@ -821,6 +936,11 @@ tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> Cmatrix<numberType>::LU
     Checkrep();
     return make_tuple(P, L, U);
 }
+
+/**
+ * Computes the QR decomposition of the matrix "this". Returns a tuple composed by the
+ * matrix Q, and the matrix R.
+ */
 
 // QR Decomposition
 template <typename numberType>
@@ -856,28 +976,11 @@ tuple<Cmatrix<double>, Cmatrix<double>> Cmatrix<numberType>::QR() {
     return make_tuple(Q, R);
 }
 
-// Singular Value Decomposition
-
-//template <typename numberType>
-//tuple<Cmatrix<numberType>, Cmatrix<numberType>> Cmatrix<numberType>::SVD() {
-//    Cmatrix<numberType> A(*this);
-//    Cmatrix<numberType> P;
-//    int min;
-//    if(A.numberCols>A.numberRows) {
-//        P = A*A.transpose();
-//        min = A.numberCols;
-//    else {
-//        P= A.transpose()*A;
-//        min = A.numberRows;
-//        }
-//    tuple<Cmatrix<numberType>, Cmatrix<numberType>> qr = A.QR();
-//    Cmatrix<double> Q(get<0>(qr));
-//    Cmatrix<double> R(get<1>(qr));
-//    A = R*Q;
-//    i = fabs(A(1,0));
-//}
-
 //-------------------------------------Matrix Properties------------------------------------------------
+
+/**
+ * Returns a double corresponding to the determinant of the matrix "this".
+ */
 
 // Determinant
 template <typename numberType>
@@ -901,6 +1004,10 @@ double Cmatrix<numberType>::determinant(){
     return detA;
 }
 
+/**
+ * Returns a vector containing the eigen values of the matriz by iterating the QR method.
+ */
+
 // EigenValues
 template <typename numberType>
 Cvector<double> Cmatrix<numberType>::eigen_values(const double tol){
@@ -909,6 +1016,8 @@ Cvector<double> Cmatrix<numberType>::eigen_values(const double tol){
     assert(is_arithmetic<numberType>::value);
     assert(nRows == nCols);
     Cmatrix<double> A((*this).toDouble());
+    double det = A.determinant();
+    cout << "Det :" << det << endl;
     double i= 1;
     while(i>tol){
         tuple<Cmatrix<double>, Cmatrix<double>> qr = A.QR();
@@ -916,12 +1025,17 @@ Cvector<double> Cmatrix<numberType>::eigen_values(const double tol){
         Cmatrix<double> R(get<1>(qr));
         A = R*Q;
         i = fabs(A(1,0));
+        
     }
     Checkrep();
-    return Cmatrix<numberType>::diagonal(A);
+    return Cmatrix<double>::diagonal(A);
 }
 
 // ************************************************ PRIVATE *********************************************+*
+
+/**
+ * Expands the number of rows of the Cmatrix by doubling it.
+ */
 
 //Expand Capacity
 template <typename numberType>
@@ -936,6 +1050,10 @@ void Cmatrix<numberType>::expandCapacity(){
     Checkrep();
     delete[] Oldarray;
 }
+
+/**
+ * Check the invariant representation of the class.
+ */
 
 // Check Representation Invariant
 template <typename numberType>

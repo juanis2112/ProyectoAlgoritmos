@@ -106,15 +106,15 @@ public:
     static Cmatrix<double> zeros(size_t rows, size_t cols);
     static Cmatrix<double> ones(size_t rows, size_t cols);
     static Cmatrix<double> random(size_t rows, size_t cols);
-    // Diagonalize PENDIENTE
-    static Cvector<double> diagonal(Cmatrix<numberType> m);
-    Cmatrix<double> permutationMatrix(Cvector<numberType> v);
+    static Cmatrix<double> diagonalize(const Cvector<numberType> &rhs);
+    static Cvector<double> diagonal(Cmatrix<numberType> &m);
+    static Cmatrix<double> permutationMatrix(Cvector<numberType> &v);
 
     // Modifiers
     void swap_r(size_t row1, size_t row2);
     void swap_c(size_t col1, size_t col2);
-    // appendRows
-    // appendCols
+    void appendRows(const Cmatrix<numberType> &rhs);
+    void appendCols(const Cmatrix<numberType> &rhs);
     
     // Special Matrixes
     Cmatrix<numberType> abs();
@@ -126,7 +126,6 @@ public:
     // Matrix Decompositions
     tuple<Cvector<double>, Cmatrix<double>, Cmatrix<double>> LUP(double Tol);
     tuple<Cmatrix<double>, Cmatrix<double>> QR();
-    //tuple<Cmatrix<double>, Cmatrix<double>> SVD(); // PENDIENTE
     
     // Matrix Properties
     Cvector<double> eigen_values(const double tol);
